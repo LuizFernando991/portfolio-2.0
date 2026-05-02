@@ -6,15 +6,15 @@ interface Props {
 export default function WaveDivider({ from, to }: Props) {
   return (
     <div className="wave-divider" aria-hidden="true" style={{ background: from }}>
-      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <path
-          d="M0,40 C180,80 360,0 540,40 C720,80 900,0 1080,40 C1260,80 1380,20 1440,40 L1440,80 L0,80 Z"
+          d="M0,32 C240,48 360,20 560,32 C780,46 940,20 1130,31 C1280,40 1370,30 1440,24 L1440,56 L0,56 Z"
           fill={to}
         />
         <path
-          d="M0,50 C200,10 400,70 600,50 C800,30 1000,70 1200,50 C1320,38 1400,55 1440,50 L1440,80 L0,80 Z"
+          d="M0,39 C220,28 380,46 570,38 C760,30 930,42 1120,36 C1270,31 1360,38 1440,34 L1440,56 L0,56 Z"
           fill={to}
-          opacity="0.5"
+          opacity="0.42"
         />
       </svg>
     </div>

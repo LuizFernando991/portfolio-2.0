@@ -15,23 +15,18 @@ export default function Page() {
     <>
       <Nav />
       <main>
-        {/* Hero: --white bg */}
         <Hero />
-        {/* Marquee: #0e0e0e bg (no wave — abuts directly) */}
         <Marquee />
-        {/* About: var(--purple-bg) */}
         <About />
-        {/* Wave: purple-bg → dark for Skills */}
-        <WaveDivider from="#e8e2ff" to="#0e0e0e" />
-        {/* Skills: #0e0e0e bg */}
+        <WaveDivider from="#e8e2ff" to="#101010" />
         <Skills />
+        <WaveDivider from="#101010" to="#0e0e0e" />
         <Projects />
+        <WaveDivider from="#0e0e0e" to="#7c5cbf" />
         <AiChat />
-        {/* Wave: purple → peach-light for Contact */}
         <WaveDivider from="#7c5cbf" to="#fde8d4" />
-        {/* Contact: --peach-light bg */}
         <Contact />
-        {/* Footer: --black bg (no wave, just border-top) */}
+        <WaveDivider from="#fde8d4" to="#0e0e0e" />
         <Footer />
       </main>
       <ScrollRevealInit />
