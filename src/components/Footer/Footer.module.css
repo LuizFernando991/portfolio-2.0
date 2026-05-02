@@ -1,0 +1,33 @@
+.footer {
+  background: var(--black);
+  border-top: var(--border);
+  padding: 1.5rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--white);
+}
+
+.logo span {
+  color: var(--purple-light);
+}
+
+.copy {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+@media (max-width: 53.75rem) {
+  .footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+    padding: 1.25rem;
+  }
+}
