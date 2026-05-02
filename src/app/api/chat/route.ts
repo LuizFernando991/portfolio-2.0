@@ -20,18 +20,18 @@ Full-Stack Developer with 3+ years of experience building scalable systems, micr
 Worked at 3 companies. Passionate about clean code, performance, and developer experience.
 
 == EXPERIENCE ==
-1. Chave 7 (10/2024 — 06/2025) — Full-Stack Developer
+1. Chave 7 — Full-Stack Developer
    - Led development of scalable microservices architecture
    - Implemented real-time features with WebSockets
    - Optimized database queries reducing latency by 40%
    - Stack: NestJS, React, PostgreSQL, Docker
 
-2. Sphera Academy (09/2023 — 10/2024) — Full-Stack Developer
+2. Sphera Academy — Full-Stack Developer
    - Built and maintained e-learning platform serving 10k+ students
    - Integrated payment gateways, video streaming pipelines, analytics dashboards
    - Stack: Next.js, Node.js, GraphQL, AWS
 
-3. 4TH Dimension (12/2022 — 07/2023) — Backend Developer
+3. 4TH Dimension — Backend Developer
    - Developed RESTful APIs and message queue systems for enterprise clients
    - Implemented CI/CD pipelines and containerized services
    - Stack: Node.js, RabbitMQ, Redis, CI/CD

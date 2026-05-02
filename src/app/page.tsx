@@ -26,9 +26,6 @@ export default function Page() {
         {/* Skills: #0e0e0e bg */}
         <Skills />
         <Projects />
-        {/* Wave: black → purple for AiChat */}
-        <WaveDivider from="#0e0e0e" to="#7c5cbf" />
-        {/* AiChat: --purple bg */}
         <AiChat />
         {/* Wave: purple → peach-light for Contact */}
         <WaveDivider from="#7c5cbf" to="#fde8d4" />
