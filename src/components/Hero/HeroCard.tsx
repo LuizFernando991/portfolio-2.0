@@ -48,7 +48,7 @@ export default function HeroCard() {
           <div className={styles.chipLabel}>Anos de exp.</div>
         </div>
         <div className={styles.chip}>
-          <div className={styles.chipNum}>∞</div>
+          <div className={styles.chipNum}>NaN</div>
           <div className={styles.chipLabel}>Horas de código</div>
         </div>
         <div className={styles.chip}>
