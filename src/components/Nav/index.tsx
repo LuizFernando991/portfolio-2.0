@@ -20,7 +20,7 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { locale, setLocale, t } = useI18n();
+  const { locale, setLocale, t, alternateSlugs } = useI18n();
 
   const closeMenu = () => setMenuOpen(false);
   const homePath = localizedPath('/', locale);
@@ -37,12 +37,18 @@ export default function Nav() {
     setLocale(nextLocale);
 
     if (pathname === '/' || pathname === '/pt' || pathname === '/en') {
-      router.push(localizedPath('/', nextLocale));
+      router.push(localizedPath('/', nextLocale), { scroll: false });
       return;
     }
 
     if (pathname === '/blog' || pathname === '/pt/blog' || pathname === '/en/blog') {
-      router.push(localizedPath('/blog', nextLocale));
+      router.push(localizedPath('/blog', nextLocale), { scroll: false });
+      return;
+    }
+
+    if (alternateSlugs) {
+      const targetSlug = alternateSlugs[nextLocale];
+      router.push(`${localizedPath('/blog', nextLocale)}/${targetSlug}`, { scroll: false });
     }
   };
 

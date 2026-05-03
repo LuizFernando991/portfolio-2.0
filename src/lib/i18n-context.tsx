@@ -3,10 +3,17 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { type Locale, type Translation, locales, translations } from './i18n';
 
+interface AlternateSlugs {
+  'pt-BR': string;
+  'en-US': string;
+}
+
 interface I18nContextValue {
   locale: Locale;
   setLocale: (locale: Locale) => void;
   t: Translation;
+  alternateSlugs: AlternateSlugs | null;
+  setAlternateSlugs: (slugs: AlternateSlugs | null) => void;
 }
 
 const STORAGE_KEY = 'portfolio-locale';
@@ -24,6 +31,7 @@ export function I18nProvider({
   initialLocale?: Locale;
 }) {
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
+  const [alternateSlugs, setAlternateSlugs] = useState<AlternateSlugs | null>(null);
 
   useEffect(() => {
     if (initialLocale !== 'pt-BR') {
@@ -59,8 +67,10 @@ export function I18nProvider({
       locale,
       setLocale,
       t: translations[locale],
+      alternateSlugs,
+      setAlternateSlugs,
     }),
-    [locale]
+    [locale, alternateSlugs]
   );
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;

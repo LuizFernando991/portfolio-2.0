@@ -1,6 +1,7 @@
 'use client';
 
 /* eslint-disable @next/next/no-img-element */
+import { useEffect } from 'react';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -40,7 +41,12 @@ interface Props {
 }
 
 export default function PostPageContent({ post }: Props) {
-  const { locale, t } = useI18n();
+  const { locale, t, setAlternateSlugs } = useI18n();
+
+  useEffect(() => {
+    setAlternateSlugs({ 'pt-BR': post.slug, 'en-US': post.slugEn ?? post.slug });
+    return () => setAlternateSlugs(null);
+  }, [post.slug, post.slugEn]);
   const b = t.blog;
   const useEnglish = locale === 'en-US';
   const localized = {
