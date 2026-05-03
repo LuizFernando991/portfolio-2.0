@@ -1,0 +1,147 @@
+.container {
+  min-height: 100vh;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────── */
+.header {
+  background: var(--black);
+  border-bottom: var(--border);
+  padding: 0.875rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerInner {
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badge {
+  background: var(--purple);
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border: 0.15625rem solid var(--white);
+  border-radius: 0.375rem;
+}
+
+.siteName {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.emailLabel {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--purple-light);
+}
+
+.signOutBtn {
+  background: transparent;
+  color: var(--white);
+  border: 0.15625rem solid rgba(255, 255, 255, 0.35);
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.875rem;
+  font-size: 0.85rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.signOutBtn:hover {
+  border-color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Main ────────────────────────────────────────────────────────────────── */
+.main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  width: 100%;
+}
+
+.welcome {
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--black);
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+/* ─── Cards ───────────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translate(-0.15rem, -0.15rem);
+}
+
+.cardIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.cardDesc {
+  font-size: 0.875rem;
+  color: #666;
+  line-height: 1.5;
+}
