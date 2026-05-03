@@ -105,10 +105,9 @@
     color 0.12s;
 }
 
-.localeSwitch button:hover,
 .mobileLocaleSwitch button:hover,
 .localeActive {
-  background: var(--black);
+  background: var(--purple);
   color: var(--white);
 }
 

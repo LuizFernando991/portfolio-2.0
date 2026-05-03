@@ -5,17 +5,13 @@ interface Props {
 
 export default function WaveDivider({ from, to }: Props) {
   return (
-    <div className="wave-divider" aria-hidden="true" style={{ background: from }}>
-      <svg viewBox="0 0 1440 56" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <path
-          d="M0,32 C240,48 360,20 560,32 C780,46 940,20 1130,31 C1280,40 1370,30 1440,24 L1440,56 L0,56 Z"
-          fill={to}
-        />
-        <path
-          d="M0,39 C220,28 380,46 570,38 C760,30 930,42 1120,36 C1270,31 1360,38 1440,34 L1440,56 L0,56 Z"
-          fill={to}
-          opacity="0.42"
-        />
+    <div aria-hidden="true" style={{ background: to, lineHeight: 0, marginTop: '-1px', marginBottom: '-1px' }}>
+      <svg
+        viewBox="0 0 1440 64"
+        preserveAspectRatio="none"
+        style={{ display: 'block', width: '100%', height: '4rem' }}
+      >
+        <path d="M0,0 L0,40 C480,72 960,8 1440,40 L1440,0 Z" fill={from} />
       </svg>
     </div>
   );

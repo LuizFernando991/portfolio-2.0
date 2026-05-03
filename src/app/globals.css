@@ -159,20 +159,6 @@ section {
   color: var(--black);
 }
 
-/* ─── Wave Divider ──────────────────────────────────────────────────────── */
-.wave-divider {
-  line-height: 0;
-  overflow: hidden;
-  margin-top: -0.0625rem;
-  margin-bottom: -0.0625rem;
-  display: block;
-}
-
-.wave-divider svg {
-  display: block;
-  width: 100%;
-  height: 3.5rem;
-}
 
 /* ─── Responsive section padding ────────────────────────────────────────── */
 @media (max-width: 53.75rem) {
