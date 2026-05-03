@@ -24,8 +24,16 @@ const MarkdownEditor = dynamic(
 const postSchema = z.object({
   title: z.string().min(1, "Título é obrigatório").max(200, "Máximo 200 caracteres"),
   slug: z.string().min(1, "Slug é obrigatório").regex(/^[a-z0-9-]+$/, "Apenas letras minúsculas, números e hífens"),
+  titleEn: z.string().max(200, "Máximo 200 caracteres").optional(),
+  slugEn: z
+    .string()
+    .regex(/^[a-z0-9-]+$/, "Apenas letras minúsculas, números e hífens")
+    .or(z.literal(""))
+    .optional(),
   excerpt: z.string().max(300, "Máximo 300 caracteres").optional(),
+  excerptEn: z.string().max(300, "Máximo 300 caracteres").optional(),
   content: z.string().min(1, "Conteúdo é obrigatório"),
+  contentEn: z.string().optional(),
   coverImage: z.string().optional(),
   published: z.boolean(),
   featured: z.boolean(),
@@ -49,6 +57,7 @@ interface Props {
 export default function PostForm({ postId, initialData, categories, technologies, onSubmit }: Props) {
   const router = useRouter();
   const slugTouched = useRef(!!postId);
+  const slugEnTouched = useRef(!!postId);
   const [showCoverManager, setShowCoverManager] = useState(false);
   const [serverError, setServerError] = useState("");
 
@@ -64,8 +73,12 @@ export default function PostForm({ postId, initialData, categories, technologies
     defaultValues: {
       title: initialData?.title ?? "",
       slug: initialData?.slug ?? "",
+      titleEn: initialData?.titleEn ?? "",
+      slugEn: initialData?.slugEn ?? "",
       excerpt: initialData?.excerpt ?? "",
+      excerptEn: initialData?.excerptEn ?? "",
       content: initialData?.content ?? "",
+      contentEn: initialData?.contentEn ?? "",
       coverImage: initialData?.coverImage ?? "",
       published: initialData?.published ?? false,
       featured: initialData?.featured ?? false,
@@ -75,6 +88,7 @@ export default function PostForm({ postId, initialData, categories, technologies
   });
 
   const title = watch("title");
+  const titleEn = watch("titleEn");
   const coverImage = watch("coverImage");
   const categoryIds = watch("categoryIds");
   const technologyIds = watch("technologyIds");
@@ -83,6 +97,12 @@ export default function PostForm({ postId, initialData, categories, technologies
   function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (!slugTouched.current) {
       setValue("slug", generateSlug(e.target.value), { shouldValidate: true });
+    }
+  }
+
+  function handleTitleEnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!slugEnTouched.current) {
+      setValue("slugEn", generateSlug(e.target.value), { shouldValidate: true });
     }
   }
 
@@ -105,6 +125,7 @@ export default function PostForm({ postId, initialData, categories, technologies
 
   // Suppress unused warning — title is watched for slug auto-generation side effect
   void title;
+  void titleEn;
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form}>
@@ -153,6 +174,56 @@ export default function PostForm({ postId, initialData, categories, technologies
           {...register("excerpt")}
         />
         {errors.excerpt && <span className={styles.fieldError}>{errors.excerpt.message}</span>}
+      </div>
+
+      <div className={styles.translationPanel}>
+        <div className={styles.translationHeader}>
+          <span>Tradução EN-US</span>
+          <small>Opcional. Se vazio, o blog usa o conteúdo em português.</small>
+        </div>
+
+        <div className={styles.row}>
+          <div className={styles.field} style={{ flex: 2 }}>
+            <label className={styles.label} htmlFor="titleEn">Título em inglês</label>
+            <input
+              id="titleEn"
+              className={`${styles.input} ${errors.titleEn ? styles.inputError : ""}`}
+              placeholder="Post title"
+              {...register("titleEn", {
+                onChange: handleTitleEnChange,
+              })}
+            />
+            {errors.titleEn && <span className={styles.fieldError}>{errors.titleEn.message}</span>}
+          </div>
+
+          <div className={styles.field} style={{ flex: 1 }}>
+            <label className={styles.label} htmlFor="slugEn">Slug em inglês</label>
+            <input
+              id="slugEn"
+              className={`${styles.input} ${errors.slugEn ? styles.inputError : ""}`}
+              placeholder="my-post"
+              {...register("slugEn", {
+                onChange: () => { slugEnTouched.current = true; },
+              })}
+            />
+            {errors.slugEn && <span className={styles.fieldError}>{errors.slugEn.message}</span>}
+          </div>
+        </div>
+
+        <div className={styles.field}>
+          <label className={styles.label} htmlFor="excerptEn">
+            Resumo em inglês
+            <span className={styles.labelHint}> — opcional, máx. 300 caracteres</span>
+          </label>
+          <textarea
+            id="excerptEn"
+            className={`${styles.textarea} ${errors.excerptEn ? styles.inputError : ""}`}
+            placeholder="Short post description in English"
+            rows={2}
+            {...register("excerptEn")}
+          />
+          {errors.excerptEn && <span className={styles.fieldError}>{errors.excerptEn.message}</span>}
+        </div>
       </div>
 
       {/* ── Cover image ── */}
@@ -246,6 +317,23 @@ export default function PostForm({ postId, initialData, categories, technologies
               value={field.value}
               onChange={field.onChange}
               error={errors.content?.message}
+              uploadAction={uploadMedia}
+              listAction={listMedia}
+            />
+          )}
+        />
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.label}>Conteúdo em inglês</label>
+        <Controller
+          name="contentEn"
+          control={control}
+          render={({ field }) => (
+            <MarkdownEditor
+              value={field.value ?? ""}
+              onChange={field.onChange}
+              error={errors.contentEn?.message}
               uploadAction={uploadMedia}
               listAction={listMedia}
             />

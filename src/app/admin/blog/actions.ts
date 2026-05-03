@@ -8,8 +8,12 @@ import { revalidatePath } from "next/cache";
 export interface PostActionData {
   title: string;
   slug: string;
+  titleEn?: string;
+  slugEn?: string;
   excerpt?: string;
+  excerptEn?: string;
   content: string;
+  contentEn?: string;
   coverImage?: string;
   published: boolean;
   featured: boolean;
@@ -31,19 +35,39 @@ export async function createPost(data: PostActionData): Promise<ActionResult<{ i
   const authError = await assertAdmin();
   if (authError) return authError;
 
-  const { title, content, excerpt, coverImage, published, featured, categoryIds, technologyIds } = data;
+  const {
+    title,
+    slug,
+    titleEn,
+    slugEn,
+    content,
+    contentEn,
+    excerpt,
+    excerptEn,
+    coverImage,
+    published,
+    featured,
+    categoryIds,
+    technologyIds,
+  } = data;
   if (!title?.trim()) return { error: "Título é obrigatório" };
+  if (!slug?.trim()) return { error: "Slug é obrigatório" };
   if (!content?.trim()) return { error: "Conteúdo é obrigatório" };
 
-  const slug = generateSlug(title);
+  const normalizedSlug = generateSlug(slug);
+  const normalizedSlugEn = slugEn?.trim() ? generateSlug(slugEn) : null;
 
   try {
     const post = await prisma.post.create({
       data: {
         title: title.trim(),
-        slug,
+        slug: normalizedSlug,
+        titleEn: titleEn?.trim() || null,
+        slugEn: normalizedSlugEn,
         content,
+        contentEn: contentEn?.trim() || null,
         excerpt: excerpt?.trim() || null,
+        excerptEn: excerptEn?.trim() || null,
         coverImage: coverImage || null,
         published,
         featured,
@@ -67,23 +91,43 @@ export async function updatePost(
   const authError = await assertAdmin();
   if (authError) return authError;
 
-  const { title, content, excerpt, coverImage, published, featured, categoryIds, technologyIds } = data;
+  const {
+    title,
+    slug,
+    titleEn,
+    slugEn,
+    content,
+    contentEn,
+    excerpt,
+    excerptEn,
+    coverImage,
+    published,
+    featured,
+    categoryIds,
+    technologyIds,
+  } = data;
   if (!title?.trim()) return { error: "Título é obrigatório" };
+  if (!slug?.trim()) return { error: "Slug é obrigatório" };
   if (!content?.trim()) return { error: "Conteúdo é obrigatório" };
 
   const existing = await prisma.post.findUnique({ where: { id } });
   if (!existing) return { error: "Post não encontrado" };
 
-  const slug = generateSlug(title);
+  const normalizedSlug = generateSlug(slug);
+  const normalizedSlugEn = slugEn?.trim() ? generateSlug(slugEn) : null;
 
   try {
     await prisma.post.update({
       where: { id },
       data: {
         title: title.trim(),
-        slug,
+        slug: normalizedSlug,
+        titleEn: titleEn?.trim() || null,
+        slugEn: normalizedSlugEn,
         content,
+        contentEn: contentEn?.trim() || null,
         excerpt: excerpt?.trim() || null,
+        excerptEn: excerptEn?.trim() || null,
         coverImage: coverImage || null,
         published,
         featured,
@@ -96,7 +140,9 @@ export async function updatePost(
     revalidatePath(`/admin/blog/${id}/edit`);
     revalidatePath("/blog");
     revalidatePath(`/blog/${existing.slug}`);
-    revalidatePath(`/blog/${slug}`);
+    if (existing.slugEn) revalidatePath(`/blog/${existing.slugEn}`);
+    revalidatePath(`/blog/${normalizedSlug}`);
+    if (normalizedSlugEn) revalidatePath(`/blog/${normalizedSlugEn}`);
     return { success: true };
   } catch {
     return { error: "Conflito de slug ou dados inválidos" };

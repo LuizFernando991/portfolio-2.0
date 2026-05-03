@@ -19,8 +19,13 @@ interface Taxonomy {
 
 interface Post {
   title: string;
+  titleEn: string | null;
+  slug: string;
+  slugEn: string | null;
   content: string;
+  contentEn: string | null;
   excerpt: string | null;
+  excerptEn: string | null;
   coverImage: string | null;
   publishedAt: string | null;
   createdAt: string;
@@ -40,6 +45,12 @@ function readingTime(content: string) {
 export default function PostPageContent({ post }: Props) {
   const { locale, t } = useI18n();
   const b = t.blog;
+  const useEnglish = locale === 'en-US';
+  const localized = {
+    title: useEnglish && post.titleEn ? post.titleEn : post.title,
+    content: useEnglish && post.contentEn ? post.contentEn : post.content,
+    excerpt: useEnglish && post.excerptEn ? post.excerptEn : post.excerpt,
+  };
   const categories = post.categories.map(({ category }) => category);
   const technologies = post.technologies.map(({ technology }) => technology);
 
@@ -65,12 +76,12 @@ export default function PostPageContent({ post }: Props) {
               <span>{date}</span> 
               *
               <span>
-                {readingTime(post.content)} {b.readingMinute}
+                {readingTime(localized.content)} {b.readingMinute}
               </span>
             </div>
 
-            <h1 className={styles.title}>{post.title}</h1>
-            {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
+            <h1 className={styles.title}>{localized.title}</h1>
+            {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
 
             <div className={styles.chips}>
               {categories.map((category) => (
@@ -111,7 +122,7 @@ export default function PostPageContent({ post }: Props) {
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[[rehypeHighlight, { ignoreMissing: true }]]}
                 >
-                  {post.content}
+                  {localized.content}
                 </ReactMarkdown>
               </div>
 

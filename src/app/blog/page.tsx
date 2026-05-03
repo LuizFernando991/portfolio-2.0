@@ -35,8 +35,12 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
           OR: [
             { title: { contains: searchQuery, mode: 'insensitive' as const } },
             { slug: { contains: searchQuery, mode: 'insensitive' as const } },
+            { titleEn: { contains: searchQuery, mode: 'insensitive' as const } },
+            { slugEn: { contains: searchQuery, mode: 'insensitive' as const } },
             { excerpt: { contains: searchQuery, mode: 'insensitive' as const } },
+            { excerptEn: { contains: searchQuery, mode: 'insensitive' as const } },
             { content: { contains: searchQuery, mode: 'insensitive' as const } },
+            { contentEn: { contains: searchQuery, mode: 'insensitive' as const } },
             {
               categories: {
                 some: { category: { name: { contains: searchQuery, mode: 'insensitive' as const } } },

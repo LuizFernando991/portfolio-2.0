@@ -12,7 +12,7 @@ interface PostPageProps {
 
 async function getPost(slug: string) {
   return prisma.post.findFirst({
-    where: { slug, published: true },
+    where: { published: true, OR: [{ slug }, { slugEn: slug }] },
     include: {
       categories: { include: { category: true } },
       technologies: { include: { technology: true } },
@@ -44,10 +44,13 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 export async function generateStaticParams() {
   const posts = await prisma.post.findMany({
     where: { published: true },
-    select: { slug: true },
+    select: { slug: true, slugEn: true },
   });
 
-  return posts.map((post) => ({ slug: post.slug }));
+  return posts.flatMap((post) => [
+    { slug: post.slug },
+    ...(post.slugEn ? [{ slug: post.slugEn }] : []),
+  ]);
 }
 
 export default async function PostPage({ params }: PostPageProps) {

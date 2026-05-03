@@ -27,8 +27,12 @@ interface BlogPost {
   id: string;
   title: string;
   slug: string;
+  titleEn: string | null;
+  slugEn: string | null;
   content: string;
+  contentEn: string | null;
   excerpt: string | null;
+  excerptEn: string | null;
   coverImage: string | null;
   publishedAt: string | null;
   createdAt: string;
@@ -110,6 +114,17 @@ function readingTime(content: string) {
   return Math.max(1, Math.ceil(words / 180));
 }
 
+function localizedPost(post: BlogPost, locale: string) {
+  const useEnglish = locale === 'en-US';
+
+  return {
+    title: useEnglish && post.titleEn ? post.titleEn : post.title,
+    slug: useEnglish && post.slugEn ? post.slugEn : post.slug,
+    excerpt: useEnglish && post.excerptEn ? post.excerptEn : post.excerpt,
+    content: useEnglish && post.contentEn ? post.contentEn : post.content,
+  };
+}
+
 export default function BlogPageContent({
   categories,
   technologies,
@@ -177,13 +192,14 @@ export default function BlogPageContent({
 
                 <div className={styles.featuredGrid}>
                   {featuredPosts.map((post, index) => {
+                    const localized = localizedPost(post, locale);
                     const postCategories = post.categories.map(({ category }) => category);
                     const postTechnologies = post.technologies.map(({ technology }) => technology);
 
                     return (
                       <Link
                         key={post.id}
-                        href={`/blog/${post.slug}`}
+                        href={`/blog/${localized.slug}`}
                         className={`${styles.featuredCard} ${
                           index === 0 ? styles.featuredCardPrimary : ''
                         }`}
@@ -195,7 +211,7 @@ export default function BlogPageContent({
                             <div className={styles.codeThumb} aria-hidden="true">
                               <span className={styles.codeMuted}>★</span> featured
                               <br />
-                              {post.title.slice(0, 36)}
+                              {localized.title.slice(0, 36)}
                             </div>
                           )}
                         </div>
@@ -204,11 +220,11 @@ export default function BlogPageContent({
                           <div className={styles.meta}>
                             <span>{formatDate(post.publishedAt ?? post.createdAt)}</span>
                             <span>
-                              {readingTime(post.content)} {b.minute}
+                              {readingTime(localized.content)} {b.minute}
                             </span>
                           </div>
-                          <h3 className={styles.featuredCardTitle}>{post.title}</h3>
-                          {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
+                          <h3 className={styles.featuredCardTitle}>{localized.title}</h3>
+                          {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
                           <div className={styles.chips}>
                             {[...postCategories, ...postTechnologies].slice(0, 4).map((item) => (
                               <span key={item.id} className={styles.chip}>
@@ -328,11 +344,12 @@ export default function BlogPageContent({
 
                 <div className={styles.grid}>
                   {posts.map((post) => {
+                    const localized = localizedPost(post, locale);
                     const postCategories = post.categories.map(({ category }) => category);
                     const postTechnologies = post.technologies.map(({ technology }) => technology);
 
                     return (
-                      <Link key={post.id} href={`/blog/${post.slug}`} className={styles.card}>
+                      <Link key={post.id} href={`/blog/${localized.slug}`} className={styles.card}>
                         <div className={styles.cover}>
                           {post.coverImage ? (
                             <img src={post.coverImage} alt="" />
@@ -340,7 +357,7 @@ export default function BlogPageContent({
                             <div className={styles.codeThumb} aria-hidden="true">
                               <span className={styles.codeMuted}>$</span> git commit -m
                               <br />
-                              &quot;{post.title.slice(0, 32)}&quot;
+                              &quot;{localized.title.slice(0, 32)}&quot;
                               <br />
                               <span className={styles.codeMuted}>✓</span> published
                             </div>
@@ -351,12 +368,12 @@ export default function BlogPageContent({
                           <div className={styles.meta}>
                             <span>{formatDate(post.publishedAt ?? post.createdAt)}</span>
                             <span>
-                              {readingTime(post.content)} {b.minute}
+                              {readingTime(localized.content)} {b.minute}
                             </span>
                           </div>
 
-                          <h2 className={styles.cardTitle}>{post.title}</h2>
-                          {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
+                          <h2 className={styles.cardTitle}>{localized.title}</h2>
+                          {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
 
                           <div className={styles.chips}>
                             {[...postCategories, ...postTechnologies].slice(0, 5).map((item) => (

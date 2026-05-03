@@ -26,8 +26,12 @@ export default async function EditPostPage({ params }: { params: { id: string } 
   const initialData = {
     title: post.title,
     slug: post.slug,
+    titleEn: post.titleEn ?? "",
+    slugEn: post.slugEn ?? "",
     excerpt: post.excerpt ?? "",
+    excerptEn: post.excerptEn ?? "",
     content: post.content,
+    contentEn: post.contentEn ?? "",
     coverImage: post.coverImage ?? "",
     published: post.published,
     featured: post.featured,

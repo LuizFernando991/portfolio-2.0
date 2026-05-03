@@ -23,7 +23,20 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (!session) return unauthorized();
 
   const body = await req.json();
-  const { title, content, excerpt, coverImage, published, featured, categoryIds, technologyIds } = body;
+  const {
+    title,
+    titleEn,
+    slugEn,
+    content,
+    contentEn,
+    excerpt,
+    excerptEn,
+    coverImage,
+    published,
+    featured,
+    categoryIds,
+    technologyIds,
+  } = body;
 
   if (!title?.trim()) return NextResponse.json({ error: "Title is required" }, { status: 400 });
   if (!content?.trim()) return NextResponse.json({ error: "Content is required" }, { status: 400 });
@@ -40,8 +53,12 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       data: {
         title: title.trim(),
         slug,
+        titleEn: titleEn?.trim() || null,
+        slugEn: slugEn?.trim() ? generateSlug(slugEn) : null,
         content,
+        contentEn: contentEn?.trim() || null,
         excerpt: excerpt?.trim() || null,
+        excerptEn: excerptEn?.trim() || null,
         coverImage: coverImage || null,
         published: !!published,
         featured: !!featured,

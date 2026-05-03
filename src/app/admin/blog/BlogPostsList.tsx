@@ -11,7 +11,10 @@ interface Post {
   id: string;
   title: string;
   slug: string;
+  titleEn: string | null;
+  slugEn: string | null;
   excerpt: string | null;
+  excerptEn: string | null;
   coverImage: string | null;
   published: boolean;
   featured: boolean;
@@ -38,7 +41,10 @@ export default function BlogPostsList({ initialPosts }: { initialPosts: Post[] }
       const searchable = [
         post.title,
         post.slug,
+        post.titleEn ?? '',
+        post.slugEn ?? '',
         post.excerpt ?? '',
+        post.excerptEn ?? '',
         post.published ? 'publicado published' : 'rascunho draft',
         post.featured ? 'destaque featured' : '',
         ...post.categories.map(({ category }) => category.name),
@@ -143,7 +149,8 @@ export default function BlogPostsList({ initialPosts }: { initialPosts: Post[] }
                     </span>
                     {post.featured && <span className={styles.badgeFeatured}>Destaque</span>}
                   </div>
-                  <span className={styles.slug}>/{post.slug}</span>
+            <span className={styles.slug}>/{post.slug}</span>
+            {post.slugEn && <span className={styles.slug}>EN /{post.slugEn}</span>}
                   {post.excerpt && <p className={styles.excerpt}>{post.excerpt}</p>}
                   <div className={styles.tags}>
                     {post.categories.map(({ category }) => (
