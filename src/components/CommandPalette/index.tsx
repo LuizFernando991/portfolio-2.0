@@ -13,7 +13,7 @@ interface Command {
 }
 
 const GITHUB = 'https://github.com/LuizFernando991';
-const LINKEDIN = 'https://www.linkedin.com/in/luiz-fernando-rodrigues-vieira-de-oliveira-b7a059207/';
+const LINKEDIN = 'https://www.linkedin.com/in/lfernandor991/';
 const WHATSAPP_NUMBER = '5537991701381';
 
 export default function CommandPalette() {

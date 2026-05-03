@@ -40,7 +40,7 @@ export default function Contact() {
               <p className={styles.desc}>{t.contact.description}</p>
 
               <a
-                href="https://www.linkedin.com/in/luiz-fernando-rodrigues-vieira-de-oliveira-b7a059207/"
+                href="https://www.linkedin.com/in/lfernandor991/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.contactButton}
@@ -67,7 +67,7 @@ export default function Contact() {
                 {t.contact.projects}
               </a>
               <a
-                href="https://www.linkedin.com/in/luiz-fernando-rodrigues-vieira-de-oliveira-b7a059207/"
+                href="https://www.linkedin.com/in/lfernandor991/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.item}

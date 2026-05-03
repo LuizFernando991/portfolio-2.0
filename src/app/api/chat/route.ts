@@ -10,7 +10,7 @@ Always respond in the same language the user writes in. If the user asks in Port
 Name: Luiz Fernando Rodrigues Vieira de Oliveira
 Role: Full-Stack Developer
 Email: lfernando.r991@gmail.com
-LinkedIn: https://www.linkedin.com/in/luiz-fernando-rodrigues-vieira-de-oliveira-b7a059207/
+LinkedIn: https://www.linkedin.com/in/lfernandor991/
 GitHub: https://github.com/LuizFernando991
 Phone: (37) 9 9170-1381
 Location: Brazil
