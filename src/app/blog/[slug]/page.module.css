@@ -67,7 +67,7 @@
 }
 
 .coverWrap {
-  padding: 2rem 2.5rem 0;
+  padding: 2rem 2.5rem;
   background: #faf9ff;
 }
 
@@ -95,21 +95,20 @@
 }
 
 .articleInner {
-  border-top: var(--border);
-  border-bottom: var(--border);
   background: var(--white);
-  padding: 4rem 2.5rem;
+  padding: 3rem 2.5rem 4rem;
 }
 
 .articleGrid {
   display: grid;
-  grid-template-columns: minmax(0, 44rem) 14rem;
-  gap: 3rem;
+  grid-template-columns: minmax(0, 1fr) 16rem;
+  gap: 2rem;
   align-items: start;
 }
 
 .content {
   min-width: 0;
+  width: 100%;
   color: #181818;
   font-size: 1.04rem;
   line-height: 1.85;
@@ -192,15 +191,15 @@
   border: var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  background: #fff;
+  background: #1a1b26;
 }
 
 .content :global(pre code.hljs) {
   display: block;
   overflow-x: auto;
   padding: 1rem 1.15rem;
-  color: #24292f;
-  background: #fff;
+  color: #9aa5ce;
+  background: #1a1b26;
   font-family: var(--font-mono);
   font-size: 0.9rem;
   line-height: 1.7;
@@ -208,7 +207,7 @@
 
 .content :global(.hljs-meta),
 .content :global(.hljs-comment) {
-  color: #6e7781;
+  color: #565f89;
 }
 
 .content :global(.hljs-tag),
@@ -300,28 +299,75 @@
 .sideBox {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
   border: var(--border);
   border-radius: var(--radius);
-  background: var(--white);
+  background: #faf9ff;
   box-shadow: var(--shadow);
-  padding: 1rem;
+  overflow: hidden;
 }
 
 .sideTitle {
+  border-bottom: var(--border);
+  background: var(--peach-light);
+  padding: 0.85rem 1rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--purple);
+  color: var(--black);
 }
 
 .sideLink {
-  display: inline-flex;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 2.35rem;
+  margin: 0.45rem 0.75rem 0;
+  border: 0.125rem solid #d8cfef;
+  border-radius: 0.65rem;
+  background: var(--white);
+  color: #3c3554;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   color: var(--black);
-  font-size: 0.9rem;
   font-weight: 700;
+  line-height: 1.25;
+  padding: 0.55rem 2rem 0.55rem 0.75rem;
+  transition:
+    background 0.12s,
+    border-color 0.12s,
+    color 0.12s,
+    box-shadow 0.12s,
+    transform 0.12s;
+}
+
+.sideLink:last-child {
+  margin-bottom: 0.75rem;
+}
+
+.sideLink::after {
+  content: "→";
+  position: absolute;
+  right: 0.75rem;
+  opacity: 0;
+  transform: translateX(-0.25rem);
+  transition:
+    opacity 0.12s,
+    transform 0.12s;
+}
+
+.sideLink:hover {
+  border-color: var(--black);
+  background: var(--purple);
+  color: var(--white);
+  box-shadow: 0.1875rem 0.1875rem 0 var(--black);
+  transform: translate(-0.0625rem, -0.0625rem);
+}
+
+.sideLink:hover::after {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 @media (max-width: 58rem) {

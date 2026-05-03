@@ -28,6 +28,7 @@ const postSchema = z.object({
   content: z.string().min(1, "Conteúdo é obrigatório"),
   coverImage: z.string().optional(),
   published: z.boolean(),
+  featured: z.boolean(),
   categoryIds: z.array(z.string()),
   technologyIds: z.array(z.string()),
 });
@@ -67,6 +68,7 @@ export default function PostForm({ postId, initialData, categories, technologies
       content: initialData?.content ?? "",
       coverImage: initialData?.coverImage ?? "",
       published: initialData?.published ?? false,
+      featured: initialData?.featured ?? false,
       categoryIds: initialData?.categoryIds ?? [],
       technologyIds: initialData?.technologyIds ?? [],
     },
@@ -253,11 +255,19 @@ export default function PostForm({ postId, initialData, categories, technologies
 
       {/* ── Footer ── */}
       <div className={styles.footer}>
-        <label className={styles.publishToggle}>
-          <input type="checkbox" {...register("published")} />
-          <span className={styles.toggleTrack} />
-          <span>Publicar</span>
-        </label>
+        <div className={styles.toggleGroup}>
+          <label className={styles.publishToggle}>
+            <input type="checkbox" {...register("published")} />
+            <span className={styles.toggleTrack} />
+            <span>Publicar</span>
+          </label>
+
+          <label className={styles.publishToggle}>
+            <input type="checkbox" {...register("featured")} />
+            <span className={styles.toggleTrack} />
+            <span>Destaque</span>
+          </label>
+        </div>
 
         <div className={styles.footerActions}>
           <button

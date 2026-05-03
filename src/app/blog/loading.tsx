@@ -1,11 +1,17 @@
+'use client';
+
 import CommandPalette from '@/components/CommandPalette';
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
+import { useI18n } from '@/lib/i18n-context';
 import styles from './page.module.css';
 
 const skeletonPosts = Array.from({ length: 5 }, (_, index) => index);
 
 export default function BlogLoading() {
+  const { t } = useI18n();
+  const b = t.blog;
+
   return (
     <div className={styles.page}>
       <CommandPalette />
@@ -15,47 +21,44 @@ export default function BlogLoading() {
         <section className={styles.hero}>
           <div className={`container ${styles.heroGrid}`}>
             <div>
-              <div className={`tag ${styles.tag}`}>✦ Blog</div>
-              <h1 className={styles.title}>Notas de campo sobre software.</h1>
-              <p className={styles.description}>
-                Textos práticos sobre backend, frontend, arquitetura e decisões de produto que
-                aparecem quando a ideia precisa virar sistema de verdade.
-              </p>
+              <div className={`tag ${styles.tag}`}>{b.tag}</div>
+              <h1 className={styles.title}>{b.title}</h1>
+              <p className={styles.description}>{b.description}</p>
             </div>
 
             <div className={styles.stats}>
               <span className={styles.statNumber}>...</span>
-              <span className={styles.statLabel}>posts publicados</span>
+              <span className={styles.statLabel}>{b.postsPublished}</span>
             </div>
           </div>
         </section>
 
         <div className={styles.content}>
           <div className={`container ${styles.layout}`}>
-            <aside className={styles.filters} aria-label="Filtros carregando">
+            <aside className={styles.filters} aria-label={b.loadingFilters}>
               <div className={styles.filterGroup}>
-                <h2 className={styles.filterTitle}>Categorias</h2>
+                <h2 className={styles.filterTitle}>{b.categories}</h2>
                 <div className={styles.filterList}>
-                  <span className={`${styles.filterLink} ${styles.filterActive}`}>Todas</span>
-                  <span className={styles.filterLink}>Carregando</span>
-                  <span className={styles.filterLink}>Carregando</span>
+                  <span className={`${styles.filterLink} ${styles.filterActive}`}>{b.all}</span>
+                  <span className={styles.filterLink}>{b.loading}</span>
+                  <span className={styles.filterLink}>{b.loading}</span>
                 </div>
               </div>
 
               <div className={styles.filterGroup}>
-                <h2 className={styles.filterTitle}>Tecnologias</h2>
+                <h2 className={styles.filterTitle}>{b.technologies}</h2>
                 <div className={styles.filterList}>
-                  <span className={`${styles.filterLink} ${styles.filterActive}`}>Todas</span>
-                  <span className={styles.filterLink}>Carregando</span>
-                  <span className={styles.filterLink}>Carregando</span>
+                  <span className={`${styles.filterLink} ${styles.filterActive}`}>{b.all}</span>
+                  <span className={styles.filterLink}>{b.loading}</span>
+                  <span className={styles.filterLink}>{b.loading}</span>
                 </div>
               </div>
             </aside>
 
-            <section className={styles.postsArea} aria-label="Posts carregando">
+            <section className={styles.postsArea} aria-label={b.loadingPosts}>
               <div className={styles.postsHeader}>
-                <span>Carregando posts</span>
-                <span>Preparando leitura</span>
+                <span>{b.loadingPostsText}</span>
+                <span>{b.loadingReadingText}</span>
               </div>
 
               <div className={styles.grid}>

@@ -12,6 +12,7 @@ export interface PostActionData {
   content: string;
   coverImage?: string;
   published: boolean;
+  featured: boolean;
   categoryIds: string[];
   technologyIds: string[];
 }
@@ -30,7 +31,7 @@ export async function createPost(data: PostActionData): Promise<ActionResult<{ i
   const authError = await assertAdmin();
   if (authError) return authError;
 
-  const { title, content, excerpt, coverImage, published, categoryIds, technologyIds } = data;
+  const { title, content, excerpt, coverImage, published, featured, categoryIds, technologyIds } = data;
   if (!title?.trim()) return { error: "Título é obrigatório" };
   if (!content?.trim()) return { error: "Conteúdo é obrigatório" };
 
@@ -45,12 +46,14 @@ export async function createPost(data: PostActionData): Promise<ActionResult<{ i
         excerpt: excerpt?.trim() || null,
         coverImage: coverImage || null,
         published,
+        featured,
         publishedAt: published ? new Date() : null,
         categories: { create: categoryIds.map((id) => ({ categoryId: id })) },
         technologies: { create: technologyIds.map((id) => ({ technologyId: id })) },
       },
     });
     revalidatePath("/admin/blog");
+    revalidatePath("/blog");
     return { success: true, data: { id: post.id } };
   } catch {
     return { error: "Slug já existe ou dados inválidos" };
@@ -64,7 +67,7 @@ export async function updatePost(
   const authError = await assertAdmin();
   if (authError) return authError;
 
-  const { title, content, excerpt, coverImage, published, categoryIds, technologyIds } = data;
+  const { title, content, excerpt, coverImage, published, featured, categoryIds, technologyIds } = data;
   if (!title?.trim()) return { error: "Título é obrigatório" };
   if (!content?.trim()) return { error: "Conteúdo é obrigatório" };
 
@@ -83,6 +86,7 @@ export async function updatePost(
         excerpt: excerpt?.trim() || null,
         coverImage: coverImage || null,
         published,
+        featured,
         publishedAt: published && !existing.published ? new Date() : existing.publishedAt,
         categories: { deleteMany: {}, create: categoryIds.map((id) => ({ categoryId: id })) },
         technologies: { deleteMany: {}, create: technologyIds.map((id) => ({ technologyId: id })) },
@@ -90,6 +94,9 @@ export async function updatePost(
     });
     revalidatePath("/admin/blog");
     revalidatePath(`/admin/blog/${id}/edit`);
+    revalidatePath("/blog");
+    revalidatePath(`/blog/${existing.slug}`);
+    revalidatePath(`/blog/${slug}`);
     return { success: true };
   } catch {
     return { error: "Conflito de slug ou dados inválidos" };
@@ -103,6 +110,7 @@ export async function deletePost(id: string): Promise<ActionResult> {
   try {
     await prisma.post.delete({ where: { id } });
     revalidatePath("/admin/blog");
+    revalidatePath("/blog");
     return { success: true };
   } catch {
     return { error: "Post não encontrado" };

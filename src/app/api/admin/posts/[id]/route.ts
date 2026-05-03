@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   if (!session) return unauthorized();
 
   const body = await req.json();
-  const { title, content, excerpt, coverImage, published, categoryIds, technologyIds } = body;
+  const { title, content, excerpt, coverImage, published, featured, categoryIds, technologyIds } = body;
 
   if (!title?.trim()) return NextResponse.json({ error: "Title is required" }, { status: 400 });
   if (!content?.trim()) return NextResponse.json({ error: "Content is required" }, { status: 400 });
@@ -44,6 +44,7 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
         excerpt: excerpt?.trim() || null,
         coverImage: coverImage || null,
         published: !!published,
+        featured: !!featured,
         publishedAt: published && !wasPublished ? new Date() : existing.publishedAt,
         categories: {
           deleteMany: {},

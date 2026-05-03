@@ -30,6 +30,7 @@ export default async function EditPostPage({ params }: { params: { id: string } 
     content: post.content,
     coverImage: post.coverImage ?? "",
     published: post.published,
+    featured: post.featured,
     categoryIds: post.categories.map((c) => c.categoryId),
     technologyIds: post.technologies.map((t) => t.technologyId),
   };

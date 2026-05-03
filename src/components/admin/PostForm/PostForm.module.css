@@ -247,6 +247,13 @@
 }
 
 /* Toggle switch */
+.toggleGroup {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
 .publishToggle {
   display: flex;
   align-items: center;
