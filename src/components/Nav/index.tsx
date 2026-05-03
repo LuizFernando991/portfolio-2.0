@@ -20,10 +20,11 @@ export default function Nav() {
 
   const closeMenu = () => setMenuOpen(false);
   const navLinks = [
-    { label: t.nav.about, href: '#about' },
-    { label: t.nav.skills, href: '#skills' },
-    { label: t.nav.projects, href: '#projects' },
-    { label: t.nav.aiChat, href: '#ai-chat' },
+    { label: t.nav.about, href: '/#about' },
+    { label: t.nav.skills, href: '/#skills' },
+    { label: t.nav.projects, href: '/#projects' },
+    { label: t.nav.blog, href: '/blog' },
+    { label: t.nav.aiChat, href: '/#ai-chat' },
   ];
   const localeOptions: Locale[] = ['pt-BR', 'en-US'];
 
@@ -43,7 +44,7 @@ export default function Nav() {
             </li>
           ))}
           <li>
-            <a href="#contact" className={styles.cta}>
+            <a href="/#contact" className={styles.cta}>
               {t.nav.contact} →
             </a>
           </li>
@@ -89,7 +90,7 @@ export default function Nav() {
           </a>
         ))}
         <a
-          href="#contact"
+          href="/#contact"
           className={`${styles.mobileLink} ${styles.mobileCta}`}
           onClick={closeMenu}
         >

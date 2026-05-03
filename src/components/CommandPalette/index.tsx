@@ -32,7 +32,14 @@ export default function CommandPalette() {
   const goto = useCallback(
     (href: string) => {
       close();
-      setTimeout(() => document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' }), 50);
+      setTimeout(() => {
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+        window.location.href = `/${href}`;
+      }, 50);
     },
     [close],
   );
@@ -49,6 +56,7 @@ export default function CommandPalette() {
     { id: 'about', label: `${t.palette.goTo} ${t.nav.about}`, category: t.palette.navigate, icon: '→', action: () => goto('#about') },
     { id: 'skills', label: `${t.palette.goTo} ${t.nav.skills}`, category: t.palette.navigate, icon: '→', action: () => goto('#skills') },
     { id: 'projects', label: `${t.palette.goTo} ${t.nav.projects}`, category: t.palette.navigate, icon: '→', action: () => goto('#projects') },
+    { id: 'blog', label: `${t.palette.goTo} ${t.nav.blog}`, category: t.palette.navigate, icon: '→', action: () => { close(); window.location.href = '/blog'; } },
     { id: 'ai-chat', label: `${t.palette.goTo} ${t.nav.aiChat}`, category: t.palette.navigate, icon: '→', action: () => goto('#ai-chat') },
     { id: 'contact', label: `${t.palette.goTo} ${t.nav.contact}`, category: t.palette.navigate, icon: '→', action: () => goto('#contact') },
     { id: 'github', label: t.palette.openGithub, category: t.palette.links, icon: '↗', action: () => openLink(GITHUB) },
