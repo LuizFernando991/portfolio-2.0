@@ -4,8 +4,44 @@ import Image from 'next/image';
 import { useI18n } from '@/lib/i18n-context';
 import styles from './Hero.module.css';
 
+const stackEntries = [
+  { key: 'backend', values: ['Golang', 'Node', 'Bun'] },
+  { key: 'frontend', values: ['Next.js', 'React.js'] },
+  { key: 'infra', values: ['AWS', 'Docker'] },
+] as const;
+
+function CodeArrayLine({ name, values }: { name: string; values: readonly string[] }) {
+  return (
+    <span className={styles.codeLine}>
+      {'  '}
+      {name}: [
+      {values.map((value, index) => (
+        <span key={value}>
+          <span className={styles.codeVal}>&quot;{value}&quot;</span>
+          {index < values.length - 1 ? ', ' : ''}
+        </span>
+      ))}
+      ],
+    </span>
+  );
+}
+
+function HeroStat({ value, label }: { value: string; label: string }) {
+  return (
+    <div className={styles.chip}>
+      <div className={styles.chipNum}>{value}</div>
+      <div className={styles.chipLabel}>{label}</div>
+    </div>
+  );
+}
+
 export default function HeroCard() {
   const { t } = useI18n();
+  const stats = [
+    { value: '3+', label: t.hero.years },
+    { value: 'NaN', label: t.hero.codeHours },
+    { value: '∞', label: t.hero.caffeine },
+  ];
 
   return (
     <div className={`${styles.card} reveal`}>
@@ -27,20 +63,9 @@ export default function HeroCard() {
           <span className={styles.codeKey}>const</span> <span className={styles.codeStr}>dev</span>{' '}
           = {'{'}
         </span>
-        <span className={styles.codeLine}>
-          {'  '}backend: [<span className={styles.codeVal}>&quot;Golang&quot;</span>,{' '}
-          <span className={styles.codeVal}>&quot;Node&quot;</span>,{' '}
-          <span className={styles.codeVal}>&quot;Bun&quot;</span>],
-          
-        </span>
-        <span className={styles.codeLine}>
-          {'  '}frontend: [<span className={styles.codeVal}>&quot;Next.js&quot;</span>,{' '}
-          <span className={styles.codeVal}>&quot;React.js&quot;</span>],
-        </span>
-        <span className={styles.codeLine}>
-          {'  '}infra: [<span className={styles.codeVal}>&quot;AWS&quot;</span>,{' '}
-          <span className={styles.codeVal}>&quot;Docker&quot;</span>],
-        </span>
+        {stackEntries.map((entry) => (
+          <CodeArrayLine key={entry.key} name={entry.key} values={entry.values} />
+        ))}
         <span className={styles.codeLine}>
           {'  '}learning: <span className={styles.codeVal}>&quot;Terraform&quot;</span>
         </span>
@@ -48,18 +73,9 @@ export default function HeroCard() {
       </div>
 
       <div className={styles.stats}>
-        <div className={styles.chip}>
-          <div className={styles.chipNum}>3+</div>
-          <div className={styles.chipLabel}>{t.hero.years}</div>
-        </div>
-        <div className={styles.chip}>
-          <div className={styles.chipNum}>NaN</div>
-          <div className={styles.chipLabel}>{t.hero.codeHours}</div>
-        </div>
-        <div className={styles.chip}>
-          <div className={styles.chipNum}>∞</div>
-          <div className={styles.chipLabel}>{t.hero.caffeine}</div>
-        </div>
+        {stats.map((stat) => (
+          <HeroStat key={stat.label} value={stat.value} label={stat.label} />
+        ))}
       </div>
     </div>
   );

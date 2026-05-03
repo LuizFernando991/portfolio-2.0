@@ -2,6 +2,8 @@
 
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
+import Button from '@/components/ui/Button';
+import SectionHeader from '@/components/ui/SectionHeader';
 import { useI18n } from '@/lib/i18n-context';
 import styles from './BlogTeaser.module.css';
 
@@ -40,10 +42,15 @@ function localizedPost(post: Post, locale: string) {
   };
 }
 
-export default function BlogTeaser({ posts }: Props) {
-  const { locale, t } = useI18n();
-  const homeBlog = t.homeBlog;
-  const blog = t.blog;
+interface BlogCardProps {
+  post: Post;
+  locale: string;
+  minuteLabel: string;
+  readPostLabel: string;
+}
+
+function BlogCard({ post, locale, minuteLabel, readPostLabel }: BlogCardProps) {
+  const localized = localizedPost(post, locale);
 
   function formatDate(value: string | null) {
     return new Date(value ?? Date.now()).toLocaleDateString(locale, {
@@ -54,53 +61,69 @@ export default function BlogTeaser({ posts }: Props) {
   }
 
   return (
+    <Link href={`/blog/${localized.slug}`} className={styles.card}>
+      <div className={styles.cover}>
+        {post.coverImage ? (
+          <img src={post.coverImage} alt="" />
+        ) : (
+          <div className={styles.codeThumb} aria-hidden="true">
+            <span className={styles.codeMuted}>$</span> blog.read
+            <br />
+            {localized.title.slice(0, 34)}
+          </div>
+        )}
+      </div>
+
+      <article className={styles.body}>
+        <div className={styles.meta}>
+          <span>{formatDate(post.publishedAt ?? post.createdAt)}</span>
+          <span>
+            {readingTime(localized.content)} {minuteLabel}
+          </span>
+        </div>
+        <h3 className={styles.cardTitle}>{localized.title}</h3>
+        {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
+        <span className={styles.readMore}>{readPostLabel}</span>
+      </article>
+    </Link>
+  );
+}
+
+export default function BlogTeaser({ posts }: Props) {
+  const { locale, t } = useI18n();
+  const homeBlog = t.homeBlog;
+  const blog = t.blog;
+
+  return (
     <section id="blog" className={styles.blog}>
       <div className="container">
-        <div className={`${styles.header} reveal`}>
-          <div>
-            <div className={`tag ${styles.blogTag}`}>{homeBlog.tag}</div>
-            <h2 className={styles.title}>{homeBlog.title}</h2>
-            <p className={styles.description}>{homeBlog.description}</p>
-          </div>
-
-          <Link href="/blog" className={`btn btn-purple ${styles.cta}`}>
-            {homeBlog.cta}
-          </Link>
-        </div>
+        <SectionHeader
+          row
+          className={`${styles.header} reveal`}
+          tag={homeBlog.tag}
+          title={homeBlog.title}
+          description={homeBlog.description}
+          tagClassName={styles.blogTag}
+          titleClassName={styles.title}
+          descriptionClassName={styles.description}
+          action={
+            <Button href="/blog" variant="purple" className={styles.cta}>
+              {homeBlog.cta}
+            </Button>
+          }
+        />
 
         {posts.length > 0 ? (
           <div className={`${styles.grid} reveal`}>
-            {posts.map((post) => {
-              const localized = localizedPost(post, locale);
-
-              return (
-                <Link key={post.id} href={`/blog/${localized.slug}`} className={styles.card}>
-                  <div className={styles.cover}>
-                    {post.coverImage ? (
-                      <img src={post.coverImage} alt="" />
-                    ) : (
-                      <div className={styles.codeThumb} aria-hidden="true">
-                        <span className={styles.codeMuted}>$</span> blog.read
-                        <br />
-                        {localized.title.slice(0, 34)}
-                      </div>
-                    )}
-                  </div>
-
-                  <article className={styles.body}>
-                    <div className={styles.meta}>
-                      <span>{formatDate(post.publishedAt ?? post.createdAt)}</span>
-                      <span>
-                        {readingTime(localized.content)} {blog.minute}
-                      </span>
-                    </div>
-                    <h3 className={styles.cardTitle}>{localized.title}</h3>
-                    {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
-                    <span className={styles.readMore}>{blog.readPost}</span>
-                  </article>
-                </Link>
-              );
-            })}
+            {posts.map((post) => (
+              <BlogCard
+                key={post.id}
+                post={post}
+                locale={locale}
+                minuteLabel={blog.minute}
+                readPostLabel={blog.readPost}
+              />
+            ))}
           </div>
         ) : (
           <div className={styles.empty}>{homeBlog.empty}</div>

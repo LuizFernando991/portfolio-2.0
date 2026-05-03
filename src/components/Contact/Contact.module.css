@@ -24,61 +24,9 @@
   overflow: hidden;
 }
 
-.consoleTop {
-  min-height: 3.25rem;
-  padding: 0 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--purple-bg);
-  border-bottom: var(--border);
-}
-
-.consoleTop span {
-  width: 0.75rem;
-  height: 0.75rem;
-  border: 0.125rem solid var(--black);
-  border-radius: 50%;
-  background: var(--peach);
-}
-
-.consoleTop span:nth-child(2) {
-  background: var(--green);
-}
-
-.consoleTop span:nth-child(3) {
-  background: var(--purple);
-}
-
-.consoleTop strong,
-.commandLine,
 .path,
 .contactButton {
   font-family: var(--font-mono);
-}
-
-.consoleTop strong {
-  margin-left: 0.5rem;
-  font-size: 0.8125rem;
-}
-
-.commandLine {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 1.25rem;
-  border-bottom: var(--border);
-  background: #181818;
-  color: var(--white);
-  font-size: 0.875rem;
-}
-
-.commandLine span {
-  color: var(--green);
-}
-
-.commandLine strong {
-  color: var(--peach);
 }
 
 .body {
@@ -91,8 +39,7 @@
   padding: 2.5rem;
   border-right: var(--border);
   background:
-    linear-gradient(rgba(14, 14, 14, 0.045) 0.0625rem, transparent 0.0625rem),
-    var(--white);
+    linear-gradient(rgba(14, 14, 14, 0.045) 0.0625rem, transparent 0.0625rem), var(--white);
   background-size: 100% 2rem;
 }
 

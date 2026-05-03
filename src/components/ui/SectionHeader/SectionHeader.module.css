@@ -1,0 +1,30 @@
+.header {
+  display: grid;
+  gap: 1rem;
+}
+
+.row {
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2rem;
+  align-items: end;
+}
+
+.title {
+  font-size: clamp(2.25rem, 4vw, 3.375rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.description {
+  max-width: 36rem;
+  color: #4d465d;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+@media (max-width: 58rem) {
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

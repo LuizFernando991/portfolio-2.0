@@ -1,5 +1,7 @@
 'use client';
 
+import Button from '@/components/ui/Button';
+import SectionHeader from '@/components/ui/SectionHeader';
 import { useI18n } from '@/lib/i18n-context';
 import ExperienceCard from './ExperienceCard';
 import StatCounter from './StatCounter';
@@ -13,8 +15,12 @@ export default function About() {
       <div className="container">
         <div className={styles.grid}>
           <div className="reveal">
-            <div className={`tag ${styles.aboutTag}`}>{t.about.tag}</div>
-            <h2 className={styles.title}>{t.about.title}</h2>
+            <SectionHeader
+              tag={t.about.tag}
+              title={t.about.title}
+              tagClassName={styles.aboutTag}
+              titleClassName={styles.title}
+            />
             <div className={styles.text}>
               {t.about.paragraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
@@ -27,9 +33,9 @@ export default function About() {
             </div>
 
             <div className={styles.ctaWrap}>
-              <a href="#contact" className="btn btn-purple">
+              <Button href="#contact" variant="purple">
                 {t.about.cta}
-              </a>
+              </Button>
             </div>
           </div>
 

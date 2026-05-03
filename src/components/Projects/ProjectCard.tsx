@@ -1,11 +1,35 @@
 'use client';
 
+import type { ReactNode } from 'react';
 import type { Project } from '@/lib/i18n';
 import { useI18n } from '@/lib/i18n-context';
 import styles from './Projects.module.css';
 
 interface Props {
   project: Project;
+}
+
+function WindowDots() {
+  return (
+    <div className={styles.mockupBar}>
+      <div className={`${styles.dot} ${styles.dotR}`} />
+      <div className={`${styles.dot} ${styles.dotY}`} />
+      <div className={`${styles.dot} ${styles.dotG}`} />
+    </div>
+  );
+}
+
+function Mockup({ children }: { children: ReactNode }) {
+  return (
+    <div className={styles.mockup}>
+      <WindowDots />
+      <div className={styles.mockupContent}>{children}</div>
+    </div>
+  );
+}
+
+function MockupLine({ width, marginTop }: { width?: string; marginTop?: number }) {
+  return <div className={styles.mockupLine} style={{ width, marginTop }} />;
 }
 
 function ThumbDark() {
@@ -29,20 +53,13 @@ function ThumbDark() {
 function ThumbPurple() {
   return (
     <div className={`${styles.thumb} ${styles.thumbPurple}`}>
-      <div className={styles.mockup}>
-        <div className={styles.mockupBar}>
-          <div className={`${styles.dot} ${styles.dotR}`} />
-          <div className={`${styles.dot} ${styles.dotY}`} />
-          <div className={`${styles.dot} ${styles.dotG}`} />
-        </div>
-        <div className={styles.mockupContent}>
-          <div className={styles.mockupLinePurple} />
-          <div className={styles.mockupLine} style={{ width: '60%' }} />
-          <div className={styles.mockupLine} style={{ width: '90%' }} />
-          <div className={styles.mockupLine} style={{ width: '60%' }} />
-          <div className={styles.mockupLineAccent} />
-        </div>
-      </div>
+      <Mockup>
+        <div className={styles.mockupLinePurple} />
+        <MockupLine width="60%" />
+        <MockupLine width="90%" />
+        <MockupLine width="60%" />
+        <div className={styles.mockupLineAccent} />
+      </Mockup>
     </div>
   );
 }
@@ -50,25 +67,18 @@ function ThumbPurple() {
 function ThumbPeach() {
   return (
     <div className={`${styles.thumb} ${styles.thumbPeach}`}>
-      <div className={styles.mockup}>
-        <div className={styles.mockupBar}>
-          <div className={`${styles.dot} ${styles.dotR}`} />
-          <div className={`${styles.dot} ${styles.dotY}`} />
-          <div className={`${styles.dot} ${styles.dotG}`} />
-        </div>
-        <div className={styles.mockupContent}>
-          <div className={styles.mockupIconRow}>
-            <div className={styles.mockupIcon} />
-            <div className={styles.mockupIconMeta}>
-              <div className={styles.mockupLine} style={{ width: '80%' }} />
-              <div className={styles.mockupLine} style={{ width: '60%' }} />
-            </div>
+      <Mockup>
+        <div className={styles.mockupIconRow}>
+          <div className={styles.mockupIcon} />
+          <div className={styles.mockupIconMeta}>
+            <MockupLine width="80%" />
+            <MockupLine width="60%" />
           </div>
-          <div className={styles.mockupLine} />
-          <div className={styles.mockupLine} style={{ width: '60%' }} />
-          <div className={styles.mockupLine} style={{ width: '75%' }} />
         </div>
-      </div>
+        <MockupLine />
+        <MockupLine width="60%" />
+        <MockupLine width="75%" />
+      </Mockup>
     </div>
   );
 }
@@ -76,29 +86,22 @@ function ThumbPeach() {
 function ThumbGreen() {
   return (
     <div className={`${styles.thumb} ${styles.thumbGreen}`}>
-      <div className={styles.mockup}>
-        <div className={styles.mockupBar}>
-          <div className={`${styles.dot} ${styles.dotR}`} />
-          <div className={`${styles.dot} ${styles.dotY}`} />
-          <div className={`${styles.dot} ${styles.dotG}`} />
+      <Mockup>
+        <div className={styles.mockupCampaignRow}>
+          <MockupLine width="50%" />
+          <div className={styles.mockupBadge} />
         </div>
-        <div className={styles.mockupContent}>
-          <div className={styles.mockupCampaignRow}>
-            <div className={styles.mockupLine} style={{ width: '50%' }} />
-            <div className={styles.mockupBadge} />
-          </div>
-          <div className={styles.mockupPills}>
-            <div className={styles.mockupPill} style={{ width: 48 }} />
-            <div className={styles.mockupPill} style={{ width: 36 }} />
-            <div className={styles.mockupPill} style={{ width: 52 }} />
-          </div>
-          <div className={styles.mockupLine} style={{ width: '100%', marginTop: 4 }} />
-          <div className={styles.mockupLine} style={{ width: '60%' }} />
-          <div className={styles.mockupProgress}>
-            <div className={styles.mockupProgressFill} />
-          </div>
+        <div className={styles.mockupPills}>
+          <div className={styles.mockupPill} style={{ width: 48 }} />
+          <div className={styles.mockupPill} style={{ width: 36 }} />
+          <div className={styles.mockupPill} style={{ width: 52 }} />
         </div>
-      </div>
+        <MockupLine width="100%" marginTop={4} />
+        <MockupLine width="60%" />
+        <div className={styles.mockupProgress}>
+          <div className={styles.mockupProgressFill} />
+        </div>
+      </Mockup>
     </div>
   );
 }

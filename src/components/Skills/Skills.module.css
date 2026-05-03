@@ -27,7 +27,6 @@
   z-index: 1;
 }
 
-
 .skillsTag {
   width: fit-content;
   background: var(--peach);
@@ -50,58 +49,6 @@
   color: var(--black);
   box-shadow: 0.75rem 0.75rem 0 #000;
   overflow: hidden;
-}
-
-.consoleTop {
-  min-height: 3.25rem;
-  padding: 0 1.25rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--purple-bg);
-  border-bottom: var(--border);
-}
-
-.consoleTop span {
-  width: 0.75rem;
-  height: 0.75rem;
-  border: 0.125rem solid var(--black);
-  border-radius: 50%;
-  background: var(--peach);
-}
-
-.consoleTop span:nth-child(2) {
-  background: var(--green);
-}
-
-.consoleTop span:nth-child(3) {
-  background: var(--purple);
-}
-
-.consoleTop strong {
-  margin-left: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-}
-
-.commandLine {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  padding: 1.25rem;
-  border-bottom: var(--border);
-  background: #181818;
-  color: var(--white);
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-}
-
-.commandLine span {
-  color: var(--green);
-}
-
-.commandLine strong {
-  color: var(--peach);
 }
 
 .board {
@@ -287,12 +234,6 @@
 
   .shell {
     padding: 0 1.25rem;
-  }
-
-  .header {
-    border-left: 0;
-    border-top: 0.25rem solid var(--peach);
-    padding: 1.25rem 0 0;
   }
 }
 

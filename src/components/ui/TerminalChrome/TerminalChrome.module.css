@@ -1,0 +1,51 @@
+.top {
+  min-height: 3.25rem;
+  padding: 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--purple-bg);
+  border-bottom: var(--border);
+}
+
+.dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 0.125rem solid var(--black);
+  border-radius: 50%;
+  background: var(--peach);
+}
+
+.dot:nth-child(2) {
+  background: var(--green);
+}
+
+.dot:nth-child(3) {
+  background: var(--purple);
+}
+
+.title {
+  margin-left: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.command {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border-bottom: var(--border);
+  background: #181818;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+.prompt {
+  color: var(--green);
+}
+
+.input {
+  color: var(--peach);
+}

@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/components/ui/Button';
 import HeroCard from './HeroCard';
 import { useI18n } from '@/lib/i18n-context';
 import styles from './Hero.module.css';
@@ -22,12 +23,10 @@ export default function Hero() {
           </h1>
           <p className={styles.desc}>{t.hero.description}</p>
           <div className={styles.btns}>
-            <a href="#projects" className="btn btn-primary">
-              {t.hero.projects}
-            </a>
-            <a href="#contact" className="btn btn-secondary">
+            <Button href="#projects">{t.hero.projects}</Button>
+            <Button href="#contact" variant="secondary">
               {t.hero.contact}
-            </a>
+            </Button>
           </div>
         </div>
 

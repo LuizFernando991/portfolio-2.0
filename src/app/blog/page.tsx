@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { translations } from '@/lib/i18n';
-import BlogPageContent, { type BlogSearchParams } from './BlogPageContent';
+import BlogPageContent from './BlogPageContent';
+import { firstValue, toList, type BlogSearchParams } from './blog-utils';
 
 export const metadata = {
   title: translations['pt-BR'].blog.metaTitle,
@@ -12,15 +13,6 @@ interface BlogPageProps {
 }
 
 const POSTS_PER_PAGE = 5;
-
-function toList(value?: string | string[]) {
-  const values = Array.isArray(value) ? value : value ? [value] : [];
-  return values.flatMap((item) => item.split(',')).filter(Boolean);
-}
-
-function firstValue(value?: string | string[]) {
-  return Array.isArray(value) ? value[0] : value;
-}
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
   const activeCategories = toList(searchParams?.category);
@@ -43,7 +35,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
             { contentEn: { contains: searchQuery, mode: 'insensitive' as const } },
             {
               categories: {
-                some: { category: { name: { contains: searchQuery, mode: 'insensitive' as const } } },
+                some: {
+                  category: { name: { contains: searchQuery, mode: 'insensitive' as const } },
+                },
               },
             },
             {

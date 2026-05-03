@@ -1,5 +1,7 @@
 'use client';
 
+import Button from '@/components/ui/Button';
+import SectionHeader from '@/components/ui/SectionHeader';
 import { useI18n } from '@/lib/i18n-context';
 import ProjectCard from './ProjectCard';
 import styles from './Projects.module.css';
@@ -11,12 +13,18 @@ export default function Projects() {
     <section id="projects" className={styles.projects}>
       <div className="container">
         <div className="reveal">
-          <div className={`tag ${styles.projectsTag}`}>{t.projects.tag}</div>
-          <h2 className={styles.title}>
-            {t.projects.titleTop}
-            <br />
-            {t.projects.titleBottom}
-          </h2>
+          <SectionHeader
+            tag={t.projects.tag}
+            title={
+              <>
+                {t.projects.titleTop}
+                <br />
+                {t.projects.titleBottom}
+              </>
+            }
+            tagClassName={styles.projectsTag}
+            titleClassName={styles.title}
+          />
         </div>
 
         <div className={`${styles.grid} reveal`}>
@@ -26,14 +34,13 @@ export default function Projects() {
         </div>
 
         <div className={styles.moreBtn}>
-          <a
+          <Button
             href="https://github.com/LuizFernando991"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`btn ${styles.githubButton}`}
+            variant="primary"
+            className={styles.githubButton}
           >
             {t.projects.more}
-          </a>
+          </Button>
         </div>
       </div>
     </section>
