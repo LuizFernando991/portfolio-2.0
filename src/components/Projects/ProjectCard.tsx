@@ -131,7 +131,7 @@ export default function ProjectCard({ project }: Props) {
             ))}
           </div>
           <a href={project.link} target="_blank" rel="noopener noreferrer" className={styles.link}>
-            {t.projects.github}
+            {project.link.includes('github.com') ? t.projects.github : t.projects.site}
           </a>
         </div>
       </div>

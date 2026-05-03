@@ -29,9 +29,14 @@
   color: var(--black);
 }
 
-.logo span {
+.cursor {
   color: var(--purple);
-  transition: color 0.3s;
+  animation: blink 1.1s step-start infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .links {
@@ -112,6 +117,32 @@
   color: var(--white);
 }
 
+/* ── Palette trigger button ── */
+.paletteBtn {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  padding: 0.3125rem 0.6875rem;
+  border: 1.5px solid currentColor;
+  border-radius: 6.25rem;
+  color: #888;
+  transition:
+    color 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+  white-space: nowrap;
+}
+
+.paletteBtn span {
+  color: currentColor;
+  transition: color 0.15s;
+}
+
+.paletteBtn:hover {
+  color: var(--black);
+  border-color: var(--black);
+}
+
 /* ── Nav color themes ── */
 .themeDark {
   background: #181818;
@@ -120,7 +151,7 @@
 }
 
 .themeDark .logo { color: var(--white); }
-.themeDark .logo span { color: var(--purple-light); }
+.themeDark .cursor { color: var(--purple-light); }
 .themeDark .link { color: rgba(255, 255, 255, 0.65); }
 .themeDark .link:hover { background: rgba(255, 255, 255, 0.08); color: var(--white); }
 .themeDark .localeSwitch { color: rgba(255, 255, 255, 0.65); }
@@ -135,7 +166,7 @@
 }
 
 .themePurple .logo { color: var(--white); }
-.themePurple .logo span { color: var(--peach); }
+.themePurple .cursor { color: var(--peach); }
 .themePurple .link { color: rgba(255, 255, 255, 0.8); }
 .themePurple .link:hover { background: rgba(255, 255, 255, 0.12); color: var(--white); }
 .themePurple .localeSwitch { color: rgba(255, 255, 255, 0.8); }
@@ -150,7 +181,7 @@
 }
 
 .themePeach .logo { color: var(--black); }
-.themePeach .logo span { color: var(--purple); }
+.themePeach .cursor { color: var(--purple); }
 .themePeach .link { color: var(--black); }
 .themePeach .link:hover { background: rgba(0, 0, 0, 0.07); }
 .themePeach .localeSwitch { color: var(--black); }
@@ -329,7 +360,8 @@
   }
 
   .links,
-  .localeSwitch {
+  .localeSwitch,
+  .paletteBtn {
     display: none;
   }
 

@@ -8,11 +8,13 @@ import Projects from '@/components/Projects';
 import AiChat from '@/components/AiChat';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
+import CommandPalette from '@/components/CommandPalette';
 import ScrollRevealInit from './ScrollRevealInit';
 
 export default function Page() {
   return (
     <>
+      <CommandPalette />
       <Nav />
       <main>
         <Hero />
@@ -20,11 +22,11 @@ export default function Page() {
         <About />
         <WaveDivider from="#e8e2ff" to="#101010" />
         <Skills />
-        <WaveDivider from="#101010" to="#0e0e0e" />
+        <WaveDivider from="#101010" to="#0e0e0e" flip />
         <Projects />
         <WaveDivider from="#0e0e0e" to="#7c5cbf" />
         <AiChat />
-        <WaveDivider from="#7c5cbf" to="#fde8d4" />
+        <WaveDivider from="#7c5cbf" to="#fde8d4" flip />
         <Contact />
         <WaveDivider from="#fde8d4" to="#0e0e0e" />
         <Footer />

@@ -30,9 +30,9 @@ export default function Nav() {
   return (
     <>
       <nav className={`${styles.nav} ${themeClass[theme] ?? ''}`}>
-        <div className={styles.logo}>
-          LF<span>.</span>dev
-        </div>
+        <a href="/" className={styles.logo}>
+          LF<span className={styles.cursor}>_</span>
+        </a>
 
         <ul className={styles.links}>
           {navLinks.map((link) => (
@@ -48,6 +48,15 @@ export default function Nav() {
             </a>
           </li>
         </ul>
+
+        <button
+          className={styles.paletteBtn}
+          onClick={() => document.dispatchEvent(new CustomEvent('palette:open'))}
+          aria-label="Open command palette"
+          title="Ctrl+K"
+        >
+          <span>Ctrl</span>+K
+        </button>
 
         <div className={styles.localeSwitch} aria-label={t.nav.language}>
           {localeOptions.map((option) => (

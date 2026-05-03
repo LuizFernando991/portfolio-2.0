@@ -2,6 +2,7 @@
 
 import { useI18n } from '@/lib/i18n-context';
 import ExperienceCard from './ExperienceCard';
+import StatCounter from './StatCounter';
 import styles from './About.module.css';
 
 export default function About() {
@@ -19,6 +20,12 @@ export default function About() {
                 <p key={paragraph}>{paragraph}</p>
               ))}
             </div>
+            <div className={styles.stats}>
+              <StatCounter value={3} suffix="+" label={t.about.stats.years} />
+              <StatCounter value={10} suffix="+" label={t.about.stats.projects} />
+              <StatCounter value={20} suffix="+" label={t.about.stats.techs} />
+            </div>
+
             <div className={styles.ctaWrap}>
               <a href="#contact" className="btn btn-purple">
                 {t.about.cta}
