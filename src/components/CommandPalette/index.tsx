@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/lib/i18n-context';
+import { localizedPath } from '@/lib/seo';
 import styles from './CommandPalette.module.css';
 
 interface Command {
@@ -17,7 +18,7 @@ const LINKEDIN = 'https://www.linkedin.com/in/lfernandor991/';
 const WHATSAPP_NUMBER = '5537991701381';
 
 export default function CommandPalette() {
-  const { t } = useI18n();
+  const { locale, t } = useI18n();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
@@ -38,10 +39,10 @@ export default function CommandPalette() {
           target.scrollIntoView({ behavior: 'smooth' });
           return;
         }
-        window.location.href = `/${href}`;
+        window.location.href = `${localizedPath('/', locale)}${href}`;
       }, 50);
     },
-    [close],
+    [close, locale]
   );
 
   const openLink = useCallback(
@@ -49,19 +50,79 @@ export default function CommandPalette() {
       close();
       window.open(url, '_blank', 'noopener,noreferrer');
     },
-    [close],
+    [close]
   );
 
   const commands: Command[] = [
-    { id: 'about', label: `${t.palette.goTo} ${t.nav.about}`, category: t.palette.navigate, icon: '→', action: () => goto('#about') },
-    { id: 'skills', label: `${t.palette.goTo} ${t.nav.skills}`, category: t.palette.navigate, icon: '→', action: () => goto('#skills') },
-    { id: 'projects', label: `${t.palette.goTo} ${t.nav.projects}`, category: t.palette.navigate, icon: '→', action: () => goto('#projects') },
-    { id: 'blog', label: `${t.palette.goTo} ${t.nav.blog}`, category: t.palette.navigate, icon: '→', action: () => { close(); window.location.href = '/blog'; } },
-    { id: 'ai-chat', label: `${t.palette.goTo} ${t.nav.aiChat}`, category: t.palette.navigate, icon: '→', action: () => goto('#ai-chat') },
-    { id: 'contact', label: `${t.palette.goTo} ${t.nav.contact}`, category: t.palette.navigate, icon: '→', action: () => goto('#contact') },
-    { id: 'github', label: t.palette.openGithub, category: t.palette.links, icon: '↗', action: () => openLink(GITHUB) },
-    { id: 'linkedin', label: t.palette.openLinkedin, category: t.palette.links, icon: '↗', action: () => openLink(LINKEDIN) },
-    { id: 'whatsapp', label: t.palette.openWhatsapp, category: t.palette.links, icon: '↗', action: () => openLink(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.contact.whatsappText)}`) },
+    {
+      id: 'about',
+      label: `${t.palette.goTo} ${t.nav.about}`,
+      category: t.palette.navigate,
+      icon: '→',
+      action: () => goto('#about'),
+    },
+    {
+      id: 'skills',
+      label: `${t.palette.goTo} ${t.nav.skills}`,
+      category: t.palette.navigate,
+      icon: '→',
+      action: () => goto('#skills'),
+    },
+    {
+      id: 'projects',
+      label: `${t.palette.goTo} ${t.nav.projects}`,
+      category: t.palette.navigate,
+      icon: '→',
+      action: () => goto('#projects'),
+    },
+    {
+      id: 'blog',
+      label: `${t.palette.goTo} ${t.nav.blog}`,
+      category: t.palette.navigate,
+      icon: '→',
+      action: () => {
+        close();
+        window.location.href = localizedPath('/blog', locale);
+      },
+    },
+    {
+      id: 'ai-chat',
+      label: `${t.palette.goTo} ${t.nav.aiChat}`,
+      category: t.palette.navigate,
+      icon: '→',
+      action: () => goto('#ai-chat'),
+    },
+    {
+      id: 'contact',
+      label: `${t.palette.goTo} ${t.nav.contact}`,
+      category: t.palette.navigate,
+      icon: '→',
+      action: () => goto('#contact'),
+    },
+    {
+      id: 'github',
+      label: t.palette.openGithub,
+      category: t.palette.links,
+      icon: '↗',
+      action: () => openLink(GITHUB),
+    },
+    {
+      id: 'linkedin',
+      label: t.palette.openLinkedin,
+      category: t.palette.links,
+      icon: '↗',
+      action: () => openLink(LINKEDIN),
+    },
+    {
+      id: 'whatsapp',
+      label: t.palette.openWhatsapp,
+      category: t.palette.links,
+      icon: '↗',
+      action: () =>
+        openLink(
+          `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.contact.whatsappText)}`
+        ),
+    },
   ];
 
   const filtered = query.trim()
@@ -79,7 +140,11 @@ export default function CommandPalette() {
         setActive(0);
       }
     };
-    const onOpen = () => { setOpen(true); setQuery(''); setActive(0); };
+    const onOpen = () => {
+      setOpen(true);
+      setQuery('');
+      setActive(0);
+    };
     document.addEventListener('keydown', onKey);
     document.addEventListener('palette:open', onOpen);
     return () => {
@@ -93,16 +158,34 @@ export default function CommandPalette() {
   }, [open]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') { close(); return; }
-    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((a) => Math.min(a + 1, filtered.length - 1)); }
-    if (e.key === 'ArrowUp') { e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); }
-    if (e.key === 'Enter') { e.preventDefault(); filtered[active]?.action(); }
+    if (e.key === 'Escape') {
+      close();
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive((a) => Math.min(a + 1, filtered.length - 1));
+    }
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive((a) => Math.max(a - 1, 0));
+    }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      filtered[active]?.action();
+    }
   };
 
   if (!open) return null;
 
   return (
-    <div className={styles.overlay} onClick={close} role="dialog" aria-modal="true" aria-label="Command palette">
+    <div
+      className={styles.overlay}
+      onClick={close}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Command palette"
+    >
       <div className={styles.modal} onClick={(e) => e.stopPropagation()} onKeyDown={handleKeyDown}>
         <div className={styles.inputWrap}>
           <span className={styles.inputIcon}>⌘</span>
@@ -110,7 +193,10 @@ export default function CommandPalette() {
             ref={inputRef}
             className={styles.input}
             value={query}
-            onChange={(e) => { setQuery(e.target.value); setActive(0); }}
+            onChange={(e) => {
+              setQuery(e.target.value);
+              setActive(0);
+            }}
             placeholder={t.palette.placeholder}
             aria-label={t.palette.placeholder}
           />
@@ -141,15 +227,19 @@ export default function CommandPalette() {
                 })}
             </div>
           ))}
-          {filtered.length === 0 && (
-            <div className={styles.empty}>Nenhum resultado.</div>
-          )}
+          {filtered.length === 0 && <div className={styles.empty}>Nenhum resultado.</div>}
         </div>
 
         <div className={styles.footer}>
-          <span><kbd>↑↓</kbd> navegar</span>
-          <span><kbd>↵</kbd> selecionar</span>
-          <span><kbd>ESC</kbd> fechar</span>
+          <span>
+            <kbd>↑↓</kbd> navegar
+          </span>
+          <span>
+            <kbd>↵</kbd> selecionar
+          </span>
+          <span>
+            <kbd>ESC</kbd> fechar
+          </span>
         </div>
       </div>
     </div>

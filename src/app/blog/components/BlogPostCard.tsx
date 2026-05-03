@@ -12,6 +12,7 @@ interface BlogPostCardProps {
   chipLimit?: number;
   featured?: boolean;
   readPostLabel?: string;
+  basePath?: string;
 }
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -61,6 +62,7 @@ export default function BlogPostCard({
   chipLimit = 5,
   featured = false,
   readPostLabel,
+  basePath = '/blog',
 }: BlogPostCardProps) {
   const localized = localizedPost(post, locale);
   const taxonomies = postTaxonomies(post);
@@ -70,7 +72,7 @@ export default function BlogPostCard({
 
   return (
     <Link
-      href={`/blog/${localized.slug}`}
+      href={`${basePath}/${localized.slug}`}
       className={cx(
         variant === 'featured' ? styles.featuredCard : styles.card,
         featured && styles.featuredCardPrimary

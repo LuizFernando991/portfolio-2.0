@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import SectionHeader from '@/components/ui/SectionHeader';
 import { useI18n } from '@/lib/i18n-context';
+import { localizedPath } from '@/lib/seo';
 import styles from './BlogTeaser.module.css';
 
 interface Post {
@@ -47,9 +48,10 @@ interface BlogCardProps {
   locale: string;
   minuteLabel: string;
   readPostLabel: string;
+  blogBasePath: string;
 }
 
-function BlogCard({ post, locale, minuteLabel, readPostLabel }: BlogCardProps) {
+function BlogCard({ post, locale, minuteLabel, readPostLabel, blogBasePath }: BlogCardProps) {
   const localized = localizedPost(post, locale);
 
   function formatDate(value: string | null) {
@@ -61,7 +63,7 @@ function BlogCard({ post, locale, minuteLabel, readPostLabel }: BlogCardProps) {
   }
 
   return (
-    <Link href={`/blog/${localized.slug}`} className={styles.card}>
+    <Link href={`${blogBasePath}/${localized.slug}`} className={styles.card}>
       <div className={styles.cover}>
         {post.coverImage ? (
           <img src={post.coverImage} alt="" />
@@ -93,6 +95,7 @@ export default function BlogTeaser({ posts }: Props) {
   const { locale, t } = useI18n();
   const homeBlog = t.homeBlog;
   const blog = t.blog;
+  const blogBasePath = localizedPath('/blog', locale);
 
   return (
     <section id="blog" className={styles.blog}>
@@ -107,7 +110,7 @@ export default function BlogTeaser({ posts }: Props) {
           titleClassName={styles.title}
           descriptionClassName={styles.description}
           action={
-            <Button href="/blog" variant="purple" className={styles.cta}>
+            <Button href={blogBasePath} variant="purple" className={styles.cta}>
               {homeBlog.cta}
             </Button>
           }
@@ -122,6 +125,7 @@ export default function BlogTeaser({ posts }: Props) {
                 locale={locale}
                 minuteLabel={blog.minute}
                 readPostLabel={blog.readPost}
+                blogBasePath={blogBasePath}
               />
             ))}
           </div>

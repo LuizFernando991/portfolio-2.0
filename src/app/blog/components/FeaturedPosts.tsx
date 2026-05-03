@@ -5,6 +5,7 @@ import styles from '../page.module.css';
 interface FeaturedPostsProps {
   posts: BlogPost[];
   locale: string;
+  basePath?: string;
   labels: {
     featured: string;
     minute: string;
@@ -13,7 +14,7 @@ interface FeaturedPostsProps {
   };
 }
 
-export default function FeaturedPosts({ posts, locale, labels }: FeaturedPostsProps) {
+export default function FeaturedPosts({ posts, locale, basePath = '/blog', labels }: FeaturedPostsProps) {
   if (posts.length === 0) return null;
 
   return (
@@ -35,6 +36,7 @@ export default function FeaturedPosts({ posts, locale, labels }: FeaturedPostsPr
             variant="featured"
             chipLimit={4}
             featured={index === 0}
+            basePath={basePath}
           />
         ))}
       </div>

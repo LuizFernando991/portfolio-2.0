@@ -4,6 +4,7 @@ import { getAdminSessionForApi } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 import { generateSlug } from "@/lib/slug";
 import { revalidatePath } from "next/cache";
+import { revalidateTechnologyCache } from "@/lib/revalidate";
 
 type ActionResult<T = void> =
   | { success: true; data?: T }
@@ -28,6 +29,7 @@ export async function createTechnology(
       data: { name: name.trim(), slug: generateSlug(name) },
     });
     revalidatePath("/admin/technologies");
+    revalidateTechnologyCache();
     return { success: true, data: technology };
   } catch {
     return { error: "Tecnologia já existe" };
@@ -49,6 +51,7 @@ export async function updateTechnology(
       data: { name: name.trim(), slug: generateSlug(name) },
     });
     revalidatePath("/admin/technologies");
+    revalidateTechnologyCache();
     return { success: true, data: technology };
   } catch {
     return { error: "Não encontrado ou nome duplicado" };
@@ -62,6 +65,7 @@ export async function deleteTechnology(id: string): Promise<ActionResult> {
   try {
     await prisma.technology.delete({ where: { id } });
     revalidatePath("/admin/technologies");
+    revalidateTechnologyCache();
     return { success: true };
   } catch {
     return { error: "Não encontrado" };

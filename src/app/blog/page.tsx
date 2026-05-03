@@ -1,120 +1,32 @@
-import { prisma } from '@/lib/prisma';
+import type { Metadata } from 'next';
 import { translations } from '@/lib/i18n';
-import BlogPageContent from './BlogPageContent';
-import { firstValue, toList, type BlogSearchParams } from './blog-utils';
 
-export const metadata = {
-  title: translations['pt-BR'].blog.metaTitle,
+export const revalidate = 900;
+import { createPageMetadata, localizedPath } from '@/lib/seo';
+import BlogPageContent from './BlogPageContent';
+import { getBlogPageData } from './blog-data';
+import type { BlogSearchParams } from './blog-utils';
+
+export const metadata: Metadata = createPageMetadata({
+  title: translations['pt-BR'].blog.metaTitle.replace(' | Luiz Fernando', ''),
   description: translations['pt-BR'].blog.metaDescription,
-};
+  path: '/blog',
+  locale: 'pt-BR',
+  alternates: {
+    canonical: '/blog',
+    languages: {
+      'pt-BR': localizedPath('/blog', 'pt-BR'),
+      'en-US': localizedPath('/blog', 'en-US'),
+    },
+  },
+});
 
 interface BlogPageProps {
   searchParams?: BlogSearchParams;
 }
 
-const POSTS_PER_PAGE = 5;
-
 export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const activeCategories = toList(searchParams?.category);
-  const activeTechnologies = toList(searchParams?.technology);
-  const searchQuery = firstValue(searchParams?.q)?.trim();
-  const requestedPage = Number(firstValue(searchParams?.page) ?? '1');
+  const data = await getBlogPageData(searchParams);
 
-  const where = {
-    published: true,
-    ...(searchQuery
-      ? {
-          OR: [
-            { title: { contains: searchQuery, mode: 'insensitive' as const } },
-            { slug: { contains: searchQuery, mode: 'insensitive' as const } },
-            { titleEn: { contains: searchQuery, mode: 'insensitive' as const } },
-            { slugEn: { contains: searchQuery, mode: 'insensitive' as const } },
-            { excerpt: { contains: searchQuery, mode: 'insensitive' as const } },
-            { excerptEn: { contains: searchQuery, mode: 'insensitive' as const } },
-            { content: { contains: searchQuery, mode: 'insensitive' as const } },
-            { contentEn: { contains: searchQuery, mode: 'insensitive' as const } },
-            {
-              categories: {
-                some: {
-                  category: { name: { contains: searchQuery, mode: 'insensitive' as const } },
-                },
-              },
-            },
-            {
-              technologies: {
-                some: {
-                  technology: { name: { contains: searchQuery, mode: 'insensitive' as const } },
-                },
-              },
-            },
-          ],
-        }
-      : {}),
-    ...(activeCategories.length > 0
-      ? { categories: { some: { category: { slug: { in: activeCategories } } } } }
-      : {}),
-    ...(activeTechnologies.length > 0
-      ? { technologies: { some: { technology: { slug: { in: activeTechnologies } } } } }
-      : {}),
-  };
-
-  const [categories, technologies, totalPosts, filteredPosts, featuredPosts] = await Promise.all([
-    prisma.category.findMany({
-      where: { posts: { some: { post: { published: true } } } },
-      orderBy: { name: 'asc' },
-    }),
-    prisma.technology.findMany({
-      where: { posts: { some: { post: { published: true } } } },
-      orderBy: { name: 'asc' },
-    }),
-    prisma.post.count({ where: { published: true } }),
-    prisma.post.count({ where }),
-    prisma.post.findMany({
-      where: { ...where, featured: true },
-      orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
-      take: 3,
-      include: {
-        categories: { include: { category: true } },
-        technologies: { include: { technology: true } },
-      },
-    }),
-  ]);
-
-  const totalPages = Math.max(1, Math.ceil(filteredPosts / POSTS_PER_PAGE));
-  const currentPage = Number.isFinite(requestedPage)
-    ? Math.min(Math.max(1, Math.trunc(requestedPage)), totalPages)
-    : 1;
-
-  const posts = await prisma.post.findMany({
-    where,
-    orderBy: [{ publishedAt: 'desc' }, { createdAt: 'desc' }],
-    skip: (currentPage - 1) * POSTS_PER_PAGE,
-    take: POSTS_PER_PAGE,
-    include: {
-      categories: { include: { category: true } },
-      technologies: { include: { technology: true } },
-    },
-  });
-
-  return (
-    <BlogPageContent
-      categories={categories}
-      technologies={technologies}
-      posts={posts.map((post) => ({
-        ...post,
-        createdAt: post.createdAt.toISOString(),
-        publishedAt: post.publishedAt?.toISOString() ?? null,
-      }))}
-      featuredPosts={featuredPosts.map((post) => ({
-        ...post,
-        createdAt: post.createdAt.toISOString(),
-        publishedAt: post.publishedAt?.toISOString() ?? null,
-      }))}
-      totalPosts={totalPosts}
-      filteredPosts={filteredPosts}
-      totalPages={totalPages}
-      currentPage={currentPage}
-      searchParams={searchParams}
-    />
-  );
+  return <BlogPageContent {...data} searchParams={searchParams} initialLocale="pt-BR" />;
 }

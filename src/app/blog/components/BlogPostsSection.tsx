@@ -10,6 +10,7 @@ interface BlogPostsSectionProps {
   totalPages: number;
   currentPage: number;
   searchParams?: BlogSearchParams;
+  basePath?: string;
   labels: {
     empty: string;
     found: string;
@@ -32,6 +33,7 @@ export default function BlogPostsSection({
   totalPages,
   currentPage,
   searchParams,
+  basePath = '/blog',
   labels,
 }: BlogPostsSectionProps) {
   if (posts.length === 0) {
@@ -58,6 +60,7 @@ export default function BlogPostsSection({
             locale={locale}
             minuteLabel={labels.minute}
             readPostLabel={labels.readPost}
+            basePath={basePath}
           />
         ))}
       </div>
@@ -66,6 +69,7 @@ export default function BlogPostsSection({
         currentPage={currentPage}
         totalPages={totalPages}
         searchParams={searchParams}
+        basePath={basePath}
         labels={labels}
       />
     </section>

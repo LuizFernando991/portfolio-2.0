@@ -3,7 +3,9 @@
 import CommandPalette from '@/components/CommandPalette';
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
-import { useI18n } from '@/lib/i18n-context';
+import type { Locale } from '@/lib/i18n';
+import { I18nProvider, useI18n } from '@/lib/i18n-context';
+import { localizedPath } from '@/lib/seo';
 import type { BlogPost, BlogSearchParams, Taxonomy } from './blog-utils';
 import BlogFilters from './components/BlogFilters';
 import BlogHero from './components/BlogHero';
@@ -21,9 +23,10 @@ interface Props {
   totalPages: number;
   currentPage: number;
   searchParams?: BlogSearchParams;
+  initialLocale?: Locale;
 }
 
-export default function BlogPageContent({
+function BlogPageShell({
   categories,
   technologies,
   posts,
@@ -33,9 +36,10 @@ export default function BlogPageContent({
   totalPages,
   currentPage,
   searchParams,
-}: Props) {
+}: Omit<Props, 'initialLocale'>) {
   const { locale, t } = useI18n();
   const b = t.blog;
+  const blogBasePath = localizedPath('/blog', locale);
 
   return (
     <div className={styles.page}>
@@ -56,6 +60,7 @@ export default function BlogPageContent({
             <FeaturedPosts
               posts={featuredPosts}
               locale={locale}
+              basePath={blogBasePath}
               labels={{
                 featured: b.featured,
                 minute: b.minute,
@@ -70,6 +75,7 @@ export default function BlogPageContent({
               categories={categories}
               technologies={technologies}
               searchParams={searchParams}
+              basePath={blogBasePath}
               labels={{
                 all: b.all,
                 categories: b.categories,
@@ -88,6 +94,7 @@ export default function BlogPageContent({
               totalPages={totalPages}
               currentPage={currentPage}
               searchParams={searchParams}
+              basePath={blogBasePath}
               labels={{
                 empty: b.empty,
                 found: b.found,
@@ -108,5 +115,13 @@ export default function BlogPageContent({
 
       <Footer />
     </div>
+  );
+}
+
+export default function BlogPageContent({ initialLocale = 'pt-BR', ...props }: Props) {
+  return (
+    <I18nProvider initialLocale={initialLocale}>
+      <BlogPageShell {...props} />
+    </I18nProvider>
   );
 }

@@ -3,6 +3,7 @@
 import { getAdminSessionForApi } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 import { generateSlug } from "@/lib/slug";
+import { revalidatePostCache } from "@/lib/revalidate";
 import { revalidatePath } from "next/cache";
 
 export interface PostActionData {
@@ -77,7 +78,7 @@ export async function createPost(data: PostActionData): Promise<ActionResult<{ i
       },
     });
     revalidatePath("/admin/blog");
-    revalidatePath("/blog");
+    revalidatePostCache();
     return { success: true, data: { id: post.id } };
   } catch {
     return { error: "Slug já existe ou dados inválidos" };
@@ -138,11 +139,13 @@ export async function updatePost(
     });
     revalidatePath("/admin/blog");
     revalidatePath(`/admin/blog/${id}/edit`);
-    revalidatePath("/blog");
-    revalidatePath(`/blog/${existing.slug}`);
-    if (existing.slugEn) revalidatePath(`/blog/${existing.slugEn}`);
-    revalidatePath(`/blog/${normalizedSlug}`);
-    if (normalizedSlugEn) revalidatePath(`/blog/${normalizedSlugEn}`);
+    revalidatePostCache({
+      pt: existing.slug !== normalizedSlug ? existing.slug : normalizedSlug,
+      en: existing.slugEn ?? normalizedSlugEn ?? undefined,
+    });
+    if (normalizedSlug !== existing.slug) {
+      revalidatePostCache({ pt: normalizedSlug, en: normalizedSlugEn ?? undefined });
+    }
     return { success: true };
   } catch {
     return { error: "Conflito de slug ou dados inválidos" };
@@ -154,9 +157,10 @@ export async function deletePost(id: string): Promise<ActionResult> {
   if (authError) return authError;
 
   try {
+    const post = await prisma.post.findUnique({ where: { id }, select: { slug: true, slugEn: true } });
     await prisma.post.delete({ where: { id } });
     revalidatePath("/admin/blog");
-    revalidatePath("/blog");
+    revalidatePostCache({ pt: post?.slug, en: post?.slugEn });
     return { success: true };
   } catch {
     return { error: "Post não encontrado" };

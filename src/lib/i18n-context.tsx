@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { type Locale, type Translation, locales, translations } from './i18n';
 
 interface I18nContextValue {
@@ -23,10 +16,22 @@ function isLocale(value: string | null): value is Locale {
   return Boolean(value && locales.includes(value as Locale));
 }
 
-export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<Locale>('pt-BR');
+export function I18nProvider({
+  children,
+  initialLocale = 'pt-BR',
+}: {
+  children: ReactNode;
+  initialLocale?: Locale;
+}) {
+  const [locale, setLocaleState] = useState<Locale>(initialLocale);
 
   useEffect(() => {
+    if (initialLocale !== 'pt-BR') {
+      setLocaleState(initialLocale);
+      window.localStorage.setItem(STORAGE_KEY, initialLocale);
+      return;
+    }
+
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (isLocale(stored)) {
       setLocaleState(stored);
@@ -35,12 +40,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
     const browserLocale = window.navigator.language === 'en-US' ? 'en-US' : 'pt-BR';
     setLocaleState(browserLocale);
-  }, []);
+  }, [initialLocale]);
 
   const setLocale = (nextLocale: Locale) => {
     setLocaleState(nextLocale);
     window.localStorage.setItem(STORAGE_KEY, nextLocale);
     document.documentElement.lang = nextLocale;
+    const cookieValue = nextLocale === 'en-US' ? 'en' : 'pt';
+    document.cookie = `NEXT_LOCALE=${cookieValue}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
   };
 
   useEffect(() => {

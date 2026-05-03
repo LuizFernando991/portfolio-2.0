@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import type { Locale } from '@/lib/i18n';
 
 export const revalidate = 900;
 import { translations } from '@/lib/i18n';
@@ -9,38 +10,52 @@ import {
   createPageMetadata,
   localizedPath,
   ogLocale,
+  pathToLocale,
   siteName,
   truncateDescription,
 } from '@/lib/seo';
-import PostPageContent from './PostPageContent';
-import { getPost, localizedPostForSlug, postPath, postTaxonomyNames } from './post-data';
+import { I18nProvider } from '@/lib/i18n-context';
+import PostPageContent from '../../../blog/[slug]/PostPageContent';
+import {
+  getPost,
+  localizedPostForLocale,
+  postPath,
+  postTaxonomyNames,
+} from '../../../blog/[slug]/post-data';
 
-interface PostPageProps {
+interface LocalizedPostPageProps {
   params: {
+    locale: string;
     slug: string;
   };
 }
 
-export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
+function getLocaleParam(value: string): Locale {
+  if (value !== 'pt' && value !== 'en') notFound();
+  return pathToLocale(value);
+}
+
+export async function generateMetadata({ params }: LocalizedPostPageProps): Promise<Metadata> {
+  const locale = getLocaleParam(params.locale);
   const post = await getPost(params.slug);
 
   if (!post) {
     return {
-      title: translations['pt-BR'].blog.notFoundTitle,
+      title: translations[locale].blog.notFoundTitle,
     };
   }
 
-  const localized = localizedPostForSlug(post, params.slug)!;
-  const title = localized.title;
+  const localized = localizedPostForLocale(post, locale)!;
   const description = truncateDescription(localized.excerpt ?? localized.content);
   const taxonomies = postTaxonomyNames(post);
+  const canonical = localizedPath(postPath(localized.slug), locale);
   const metadata = createPageMetadata({
-    title,
+    title: localized.title,
     description,
-    path: postPath(localized.slug),
+    path: canonical,
     image: post.coverImage,
     type: 'article',
-    locale: localized.locale,
+    locale,
     publishedTime: (post.publishedAt ?? post.createdAt).toISOString(),
     modifiedTime: post.updatedAt.toISOString(),
     tags: taxonomies,
@@ -50,10 +65,10 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
     ...metadata,
     openGraph: {
       ...metadata.openGraph,
-      locale: ogLocale(localized.locale),
+      locale: ogLocale(locale),
     },
     alternates: {
-      canonical: postPath(localized.slug),
+      canonical,
       languages: {
         'pt-BR': localizedPath(postPath(post.slug), 'pt-BR'),
         ...(post.slugEn ? { 'en-US': localizedPath(postPath(post.slugEn), 'en-US') } : {}),
@@ -69,25 +84,28 @@ export async function generateStaticParams() {
   });
 
   return posts.flatMap((post) => [
-    { slug: post.slug },
-    ...(post.slugEn ? [{ slug: post.slugEn }] : []),
+    { locale: 'pt', slug: post.slug },
+    ...(post.slugEn ? [{ locale: 'en', slug: post.slugEn }] : []),
   ]);
 }
 
-export default async function PostPage({ params }: PostPageProps) {
+export default async function LocalizedPostPage({ params }: LocalizedPostPageProps) {
+  const locale = getLocaleParam(params.locale);
   const post = await getPost(params.slug);
 
   if (!post) notFound();
-  const localized = localizedPostForSlug(post, params.slug)!;
+
+  const localized = localizedPostForLocale(post, locale)!;
   const description = truncateDescription(localized.excerpt ?? localized.content);
   const publishedAt = post.publishedAt ?? post.createdAt;
   const taxonomies = postTaxonomyNames(post);
+  const url = absoluteUrl(localizedPath(postPath(localized.slug), locale));
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: localized.title,
     description,
-    url: absoluteUrl(postPath(localized.slug)),
+    url,
     datePublished: publishedAt.toISOString(),
     dateModified: post.updatedAt.toISOString(),
     author: {
@@ -100,13 +118,13 @@ export default async function PostPage({ params }: PostPageProps) {
       name: siteName,
       url: absoluteUrl('/'),
     },
-    inLanguage: localized.locale,
+    inLanguage: locale,
     keywords: taxonomies,
     ...(post.coverImage ? { image: [post.coverImage] } : {}),
   };
 
   return (
-    <>
+    <I18nProvider initialLocale={locale}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -118,6 +136,6 @@ export default async function PostPage({ params }: PostPageProps) {
           publishedAt: post.publishedAt?.toISOString() ?? null,
         }}
       />
-    </>
+    </I18nProvider>
   );
 }

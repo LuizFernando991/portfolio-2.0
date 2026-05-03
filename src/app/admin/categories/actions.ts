@@ -4,6 +4,7 @@ import { getAdminSessionForApi } from "@/lib/admin-auth";
 import { prisma } from "@/lib/prisma";
 import { generateSlug } from "@/lib/slug";
 import { revalidatePath } from "next/cache";
+import { revalidateCategoryCache } from "@/lib/revalidate";
 
 type ActionResult<T = void> =
   | { success: true; data?: T }
@@ -28,6 +29,7 @@ export async function createCategory(
       data: { name: name.trim(), slug: generateSlug(name) },
     });
     revalidatePath("/admin/categories");
+    revalidateCategoryCache();
     return { success: true, data: category };
   } catch {
     return { error: "Categoria já existe" };
@@ -49,6 +51,7 @@ export async function updateCategory(
       data: { name: name.trim(), slug: generateSlug(name) },
     });
     revalidatePath("/admin/categories");
+    revalidateCategoryCache();
     return { success: true, data: category };
   } catch {
     return { error: "Não encontrado ou nome duplicado" };
@@ -62,6 +65,7 @@ export async function deleteCategory(id: string): Promise<ActionResult> {
   try {
     await prisma.category.delete({ where: { id } });
     revalidatePath("/admin/categories");
+    revalidateCategoryCache();
     return { success: true };
   } catch {
     return { error: "Não encontrado" };

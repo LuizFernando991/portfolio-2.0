@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#0e0e0e"/>
+
+  <!-- L: vertical stroke + bottom horizontal -->
+  <rect x="3.5" y="5" width="3.5" height="16" fill="#f8f5ff" rx="0.5"/>
+  <rect x="3.5" y="17.5" width="10" height="3.5" fill="#f8f5ff" rx="0.5"/>
+
+  <!-- F: vertical stroke + top bar + middle bar -->
+  <rect x="16" y="5" width="3.5" height="16" fill="#f8f5ff" rx="0.5"/>
+  <rect x="16" y="5" width="11.5" height="3.5" fill="#f8f5ff" rx="0.5"/>
+  <rect x="16" y="12" width="8.5" height="3" fill="#f8f5ff" rx="0.5"/>
+
+  <!-- Cursor: purple underscore after F -->
+  <rect x="16" y="24" width="13" height="2.5" rx="1" fill="#7c5cbf"/>
+</svg>

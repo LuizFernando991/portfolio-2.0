@@ -7,6 +7,7 @@ interface BlogPaginationProps {
   currentPage: number;
   totalPages: number;
   searchParams?: BlogSearchParams;
+  basePath?: string;
   labels: {
     next: string;
     page: string;
@@ -22,6 +23,7 @@ export default function BlogPagination({
   currentPage,
   totalPages,
   searchParams,
+  basePath = '/blog',
   labels,
 }: BlogPaginationProps) {
   if (totalPages <= 1) return null;
@@ -29,7 +31,7 @@ export default function BlogPagination({
   return (
     <nav className={styles.pagination} aria-label={labels.page}>
       <Link
-        href={pageHref(currentPage - 1, searchParams)}
+        href={pageHref(currentPage - 1, searchParams, basePath)}
         scroll={false}
         className={cx(styles.pageButton, currentPage === 1 && styles.pageButtonDisabled)}
         aria-disabled={currentPage === 1}
@@ -45,7 +47,7 @@ export default function BlogPagination({
             <Link
               key={page}
               scroll={false}
-              href={pageHref(page, searchParams)}
+              href={pageHref(page, searchParams, basePath)}
               className={cx(styles.pageNumber, page === currentPage && styles.pageNumberActive)}
               aria-current={page === currentPage ? 'page' : undefined}
             >
@@ -56,7 +58,7 @@ export default function BlogPagination({
       </div>
 
       <Link
-        href={pageHref(currentPage + 1, searchParams)}
+        href={pageHref(currentPage + 1, searchParams, basePath)}
         scroll={false}
         className={cx(styles.pageButton, currentPage === totalPages && styles.pageButtonDisabled)}
         aria-disabled={currentPage === totalPages}

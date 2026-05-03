@@ -9,6 +9,8 @@ import CommandPalette from '@/components/CommandPalette';
 import Footer from '@/components/Footer';
 import Nav from '@/components/Nav';
 import { useI18n } from '@/lib/i18n-context';
+import { localizedPath } from '@/lib/seo';
+import { readingTime } from '../blog-utils';
 import styles from './page.module.css';
 
 interface Taxonomy {
@@ -37,11 +39,6 @@ interface Props {
   post: Post;
 }
 
-function readingTime(content: string) {
-  const words = content.trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(1, Math.ceil(words / 180));
-}
-
 export default function PostPageContent({ post }: Props) {
   const { locale, t } = useI18n();
   const b = t.blog;
@@ -53,6 +50,7 @@ export default function PostPageContent({ post }: Props) {
   };
   const categories = post.categories.map(({ category }) => category);
   const technologies = post.technologies.map(({ technology }) => technology);
+  const blogPath = localizedPath('/blog', locale);
 
   const date = new Date(post.publishedAt ?? post.createdAt).toLocaleDateString(locale, {
     day: '2-digit',
@@ -68,13 +66,12 @@ export default function PostPageContent({ post }: Props) {
       <main>
         <section className={styles.hero}>
           <div className="container">
-            <Link href="/blog" className={styles.backLink}>
+            <Link href={blogPath} className={styles.backLink}>
               {b.backToBlog}
             </Link>
 
             <div className={styles.meta}>
-              <span>{date}</span> 
-              *
+              <span>{date}</span>*
               <span>
                 {readingTime(localized.content)} {b.readingMinute}
               </span>
@@ -87,7 +84,7 @@ export default function PostPageContent({ post }: Props) {
               {categories.map((category) => (
                 <Link
                   key={category.id}
-                  href={`/blog?category=${category.slug}`}
+                  href={`${blogPath}?category=${category.slug}`}
                   className={styles.chip}
                 >
                   {category.name}
@@ -96,7 +93,7 @@ export default function PostPageContent({ post }: Props) {
               {technologies.map((technology) => (
                 <Link
                   key={technology.id}
-                  href={`/blog?technology=${technology.slug}`}
+                  href={`${blogPath}?technology=${technology.slug}`}
                   className={styles.chip}
                 >
                   {technology.name}
@@ -133,7 +130,7 @@ export default function PostPageContent({ post }: Props) {
                     {categories.map((category) => (
                       <Link
                         key={category.id}
-                        href={`/blog?category=${category.slug}`}
+                        href={`${blogPath}?category=${category.slug}`}
                         className={styles.sideLink}
                       >
                         {category.name}
@@ -148,7 +145,7 @@ export default function PostPageContent({ post }: Props) {
                     {technologies.map((technology) => (
                       <Link
                         key={technology.id}
-                        href={`/blog?technology=${technology.slug}`}
+                        href={`${blogPath}?technology=${technology.slug}`}
                         className={styles.sideLink}
                       >
                         {technology.name}

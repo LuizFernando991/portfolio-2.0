@@ -44,7 +44,8 @@ function appendValues(params: URLSearchParams, key: string, values: string[]) {
 export function filterHref(
   type: 'category' | 'technology',
   slug?: string,
-  current?: BlogSearchParams
+  current?: BlogSearchParams,
+  basePath = '/blog'
 ) {
   const params = new URLSearchParams();
   const currentCategories = toList(current?.category);
@@ -62,10 +63,10 @@ export function filterHref(
   if (search) params.set('q', search);
 
   const query = params.toString();
-  return query ? `/blog?${query}` : '/blog';
+  return query ? `${basePath}?${query}` : basePath;
 }
 
-export function pageHref(page: number, current?: BlogSearchParams) {
+export function pageHref(page: number, current?: BlogSearchParams, basePath = '/blog') {
   const params = new URLSearchParams();
 
   appendValues(params, 'category', toList(current?.category));
@@ -75,10 +76,10 @@ export function pageHref(page: number, current?: BlogSearchParams) {
   if (page > 1) params.set('page', String(page));
 
   const serialized = params.toString();
-  return serialized ? `/blog?${serialized}` : '/blog';
+  return serialized ? `${basePath}?${serialized}` : basePath;
 }
 
-export function searchHref(query: string, current?: BlogSearchParams) {
+export function searchHref(query: string, current?: BlogSearchParams, basePath = '/blog') {
   const params = new URLSearchParams();
 
   appendValues(params, 'category', toList(current?.category));
@@ -86,7 +87,7 @@ export function searchHref(query: string, current?: BlogSearchParams) {
   if (query.trim()) params.set('q', query.trim());
 
   const serialized = params.toString();
-  return serialized ? `/blog?${serialized}` : '/blog';
+  return serialized ? `${basePath}?${serialized}` : basePath;
 }
 
 export function readingTime(content: string) {

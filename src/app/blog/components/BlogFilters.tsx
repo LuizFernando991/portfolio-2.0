@@ -11,6 +11,7 @@ interface BlogFiltersProps {
   categories: Taxonomy[];
   technologies: Taxonomy[];
   searchParams?: BlogSearchParams;
+  basePath?: string;
   labels: {
     all: string;
     categories: string;
@@ -30,11 +31,13 @@ function SearchFilter({
   activeCategories,
   activeTechnologies,
   searchParams,
+  basePath = '/blog',
   labels,
 }: {
   activeCategories: string[];
   activeTechnologies: string[];
   searchParams?: BlogSearchParams;
+  basePath?: string;
   labels: BlogFiltersProps['labels'];
 }) {
   const router = useRouter();
@@ -44,13 +47,13 @@ function SearchFilter({
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const nextQuery = String(formData.get('q') ?? '');
-    router.push(searchHref(nextQuery, searchParams), { scroll: false });
+    router.push(searchHref(nextQuery, searchParams, basePath), { scroll: false });
   }
 
   return (
     <div className={styles.filterGroup}>
       <h2 className={styles.filterTitle}>{labels.search}</h2>
-      <form className={styles.blogSearch} action="/blog" onSubmit={handleSearchSubmit}>
+      <form className={styles.blogSearch} action={basePath} onSubmit={handleSearchSubmit}>
         {activeCategories.map((category) => (
           <input key={category} type="hidden" name="category" value={category} />
         ))}
@@ -70,7 +73,7 @@ function SearchFilter({
         </button>
         {searchQuery && (
           <Link
-            href={searchHref('', searchParams)}
+            href={searchHref('', searchParams, basePath)}
             scroll={false}
             className={styles.blogSearchClear}
           >
@@ -89,6 +92,7 @@ function TaxonomyFilter({
   activeItems,
   allLabel,
   searchParams,
+  basePath = '/blog',
 }: {
   title: string;
   type: 'category' | 'technology';
@@ -96,13 +100,14 @@ function TaxonomyFilter({
   activeItems: string[];
   allLabel: string;
   searchParams?: BlogSearchParams;
+  basePath?: string;
 }) {
   return (
     <div className={styles.filterGroup}>
       <h2 className={styles.filterTitle}>{title}</h2>
       <div className={styles.filterList}>
         <Link
-          href={filterHref(type, undefined, searchParams)}
+          href={filterHref(type, undefined, searchParams, basePath)}
           scroll={false}
           className={cx(styles.filterLink, activeItems.length === 0 && styles.filterActive)}
         >
@@ -111,7 +116,7 @@ function TaxonomyFilter({
         {items.map((item) => (
           <Link
             key={item.id}
-            href={filterHref(type, item.slug, searchParams)}
+            href={filterHref(type, item.slug, searchParams, basePath)}
             scroll={false}
             className={cx(
               styles.filterLink,
@@ -130,6 +135,7 @@ export default function BlogFilters({
   categories,
   technologies,
   searchParams,
+  basePath = '/blog',
   labels,
 }: BlogFiltersProps) {
   const activeCategories = toList(searchParams?.category);
@@ -141,6 +147,7 @@ export default function BlogFilters({
         activeCategories={activeCategories}
         activeTechnologies={activeTechnologies}
         searchParams={searchParams}
+        basePath={basePath}
         labels={labels}
       />
 
@@ -151,6 +158,7 @@ export default function BlogFilters({
         activeItems={activeCategories}
         allLabel={labels.all}
         searchParams={searchParams}
+        basePath={basePath}
       />
 
       <TaxonomyFilter
@@ -160,6 +168,7 @@ export default function BlogFilters({
         activeItems={activeTechnologies}
         allLabel={labels.all}
         searchParams={searchParams}
+        basePath={basePath}
       />
     </aside>
   );
