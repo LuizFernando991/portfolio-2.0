@@ -84,7 +84,7 @@ function BlogCard({ post, locale, minuteLabel, readPostLabel, blogBasePath }: Bl
           </span>
         </div>
         <h3 className={styles.cardTitle}>{localized.title}</h3>
-        {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
+        {localized.excerpt && <p className={styles.excerpt} title={localized.excerpt}>{localized.excerpt}</p>}
         <span className={styles.readMore}>{readPostLabel}</span>
       </article>
     </Link>

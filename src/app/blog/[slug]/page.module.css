@@ -177,7 +177,7 @@
   color: #3c3554;
 }
 
-.content :global(code:not(.hljs)) {
+.content :global(:not(pre) > code) {
   border-radius: 0.25rem;
   background: #ede9f8;
   color: #6d28d9;
@@ -187,16 +187,15 @@
 }
 
 .content :global(pre) {
-  overflow: hidden;
+  overflow-x: auto;
   border: var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   background: #1a1b26;
 }
 
-.content :global(pre code.hljs) {
+.content :global(pre code) {
   display: block;
-  overflow-x: auto;
   padding: 1rem 1.15rem;
   color: #9aa5ce;
   background: #1a1b26;

@@ -88,7 +88,7 @@ export default function BlogPostCard({
 
       <article className={bodyClassName}>
         <div className={styles.meta}>
-          <span>{formatBlogDate(post.publishedAt ?? post.createdAt, locale)}</span>
+          <span>{formatBlogDate(post.publishedAt ?? post.createdAt, locale)}</span>*
           <span>
             {readingTime(localized.content)} {minuteLabel}
           </span>
@@ -100,7 +100,13 @@ export default function BlogPostCard({
           <h2 className={titleClassName}>{localized.title}</h2>
         )}
 
-        {localized.excerpt && <p className={styles.excerpt}>{localized.excerpt}</p>}
+        {localized.excerpt ? (
+          <p className={styles.excerpt} title={localized.excerpt}>
+            {localized.excerpt}
+          </p>
+        ) : (
+          <p className={`${styles.excerpt} ${styles.excerptEmpty}`} aria-hidden="true" />
+        )}
 
         <div className={styles.chips}>
           {taxonomies.slice(0, chipLimit).map((item) => (

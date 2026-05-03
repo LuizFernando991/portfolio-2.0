@@ -117,7 +117,7 @@ export default function PostPageContent({ post }: Props) {
               <div className={styles.content}>
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
-                  rehypePlugins={[[rehypeHighlight, { ignoreMissing: true }]]}
+                  rehypePlugins={[[rehypeHighlight, { ignoreMissing: true, detect: false }]]}
                 >
                   {localized.content}
                 </ReactMarkdown>
