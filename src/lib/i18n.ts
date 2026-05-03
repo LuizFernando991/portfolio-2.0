@@ -176,6 +176,14 @@ export const translations = {
         },
       ],
     },
+    homeBlog: {
+      tag: '✦ Blog',
+      title: 'Escrevo sobre decisões que viram software.',
+      description:
+        'Notas práticas sobre backend, frontend, arquitetura e os detalhes que aparecem quando um produto sai do papel.',
+      cta: 'Abrir blog →',
+      empty: 'Os posts publicados vão aparecer aqui em breve.',
+    },
     aiChat: {
       tag: '✦ AI ASSISTANT',
       title: 'Pergunte qualquer coisa sobre mim',
@@ -431,6 +439,14 @@ export const translations = {
           thumb: 'green',
         },
       ],
+    },
+    homeBlog: {
+      tag: '✦ Blog',
+      title: 'I write about decisions that become software.',
+      description:
+        'Practical notes about backend, frontend, architecture, and the details that show up when a product leaves the idea stage.',
+      cta: 'Open blog →',
+      empty: 'Published posts will appear here soon.',
     },
     aiChat: {
       tag: '✦ AI ASSISTANT',
