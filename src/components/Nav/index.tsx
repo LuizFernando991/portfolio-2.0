@@ -2,14 +2,9 @@
 
 import { useState } from 'react';
 import { useNavTheme } from '@/hooks/useNavTheme';
+import { useI18n } from '@/lib/i18n-context';
+import type { Locale } from '@/lib/i18n';
 import styles from './Nav.module.css';
-
-const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'AI Chat', href: '#ai-chat' },
-];
 
 const themeClass: Record<string, string> = {
   default: '',
@@ -21,8 +16,16 @@ const themeClass: Record<string, string> = {
 export default function Nav() {
   const theme = useNavTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { locale, setLocale, t } = useI18n();
 
   const closeMenu = () => setMenuOpen(false);
+  const navLinks = [
+    { label: t.nav.about, href: '#about' },
+    { label: t.nav.skills, href: '#skills' },
+    { label: t.nav.projects, href: '#projects' },
+    { label: t.nav.aiChat, href: '#ai-chat' },
+  ];
+  const localeOptions: Locale[] = ['pt-BR', 'en-US'];
 
   return (
     <>
@@ -41,15 +44,28 @@ export default function Nav() {
           ))}
           <li>
             <a href="#contact" className={styles.cta}>
-              Contact →
+              {t.nav.contact} →
             </a>
           </li>
         </ul>
 
+        <div className={styles.localeSwitch} aria-label={t.nav.language}>
+          {localeOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={locale === option ? styles.localeActive : ''}
+              onClick={() => setLocale(option)}
+            >
+              {option === 'pt-BR' ? 'PT' : 'EN'}
+            </button>
+          ))}
+        </div>
+
         <button
           className={`${styles.hamburger} ${menuOpen ? styles.hamburgerOpen : ''}`}
           onClick={() => setMenuOpen((v) => !v)}
-          aria-label="Menu"
+          aria-label={t.nav.menu}
         >
           <span />
           <span />
@@ -68,8 +84,23 @@ export default function Nav() {
           className={`${styles.mobileLink} ${styles.mobileCta}`}
           onClick={closeMenu}
         >
-          Contact
+          {t.nav.contact}
         </a>
+        <div className={styles.mobileLocaleSwitch} aria-label={t.nav.language}>
+          {localeOptions.map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={locale === option ? styles.localeActive : ''}
+              onClick={() => {
+                setLocale(option);
+                closeMenu();
+              }}
+            >
+              {option === 'pt-BR' ? 'PT-BR' : 'EN-US'}
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );

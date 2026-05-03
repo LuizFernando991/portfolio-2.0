@@ -1,30 +1,32 @@
+'use client';
+
 import HeroCard from './HeroCard';
+import { useI18n } from '@/lib/i18n-context';
 import styles from './Hero.module.css';
 
 export default function Hero() {
+  const { t } = useI18n();
+
   return (
     <section id="hero" className={styles.hero}>
       <div className={styles.grid}>
         <div>
           <div className={`tag ${styles.available}`}>
             <span className={`tag-dot ${styles.dot}`} />
-            Available for work
+            {t.hero.available}
           </div>
           <h1 className={styles.heading}>
-            Full-Stack
+            {t.hero.titleTop}
             <br />
-            <em>Developer</em>
+            <em>{t.hero.titleEm}</em>
           </h1>
-          <p className={styles.desc}>
-            Olá! Sou Luiz Fernando — desenvolvedor focado em JavaScript/TypeScript, com experiência em Golang, Node.js, Bun,
-            React, NestJS, e AWS. Construo produtos escaláveis do back ao front.
-          </p>
+          <p className={styles.desc}>{t.hero.description}</p>
           <div className={styles.btns}>
             <a href="#projects" className="btn btn-primary">
-              Ver Projetos →
+              {t.hero.projects}
             </a>
             <a href="#contact" className="btn btn-secondary">
-              Falar Comigo
+              {t.hero.contact}
             </a>
           </div>
         </div>

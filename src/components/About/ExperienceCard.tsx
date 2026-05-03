@@ -1,4 +1,4 @@
-import type { Experience } from '@/lib/data';
+import type { Experience } from '@/lib/i18n';
 import styles from './About.module.css';
 
 interface Props {

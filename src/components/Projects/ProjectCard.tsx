@@ -1,4 +1,7 @@
-import type { Project } from '@/lib/data';
+'use client';
+
+import type { Project } from '@/lib/i18n';
+import { useI18n } from '@/lib/i18n-context';
 import styles from './Projects.module.css';
 
 interface Props {
@@ -108,6 +111,8 @@ const thumbMap = {
 };
 
 export default function ProjectCard({ project }: Props) {
+  const { t } = useI18n();
+
   return (
     <div className={styles.card}>
       {thumbMap[project.thumb]}
@@ -126,7 +131,7 @@ export default function ProjectCard({ project }: Props) {
             ))}
           </div>
           <a href={project.link} target="_blank" rel="noopener noreferrer" className={styles.link}>
-            GitHub →
+            {t.projects.github}
           </a>
         </div>
       </div>

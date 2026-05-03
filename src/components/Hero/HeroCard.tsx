@@ -1,7 +1,12 @@
+'use client';
+
 import Image from 'next/image';
+import { useI18n } from '@/lib/i18n-context';
 import styles from './Hero.module.css';
 
 export default function HeroCard() {
+  const { t } = useI18n();
+
   return (
     <div className={`${styles.card} reveal`}>
       <div className={styles.cardHeader}>
@@ -10,7 +15,7 @@ export default function HeroCard() {
         </div>
         <div>
           <div className={styles.cardName}>Luiz Fernando</div>
-          <div className={styles.cardRole}>Full-Stack Developer</div>
+          <div className={styles.cardRole}>{t.hero.cardRole}</div>
         </div>
       </div>
 
@@ -45,15 +50,15 @@ export default function HeroCard() {
       <div className={styles.stats}>
         <div className={styles.chip}>
           <div className={styles.chipNum}>3+</div>
-          <div className={styles.chipLabel}>Anos de exp.</div>
+          <div className={styles.chipLabel}>{t.hero.years}</div>
         </div>
         <div className={styles.chip}>
           <div className={styles.chipNum}>NaN</div>
-          <div className={styles.chipLabel}>Horas de código</div>
+          <div className={styles.chipLabel}>{t.hero.codeHours}</div>
         </div>
         <div className={styles.chip}>
           <div className={styles.chipNum}>∞</div>
-          <div className={styles.chipLabel}>Caffeine</div>
+          <div className={styles.chipLabel}>{t.hero.caffeine}</div>
         </div>
       </div>
     </div>

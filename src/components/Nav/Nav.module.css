@@ -80,6 +80,38 @@
   box-shadow: 0.25rem 0.25rem 0 var(--black);
 }
 
+.localeSwitch,
+.mobileLocaleSwitch {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 0.125rem solid currentColor;
+  border-radius: 6.25rem;
+  padding: 0.1875rem;
+  color: var(--black);
+}
+
+.localeSwitch button,
+.mobileLocaleSwitch button {
+  min-width: 2rem;
+  border-radius: 6.25rem;
+  padding: 0.25rem 0.45rem;
+  color: currentColor;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.localeSwitch button:hover,
+.mobileLocaleSwitch button:hover,
+.localeActive {
+  background: var(--black);
+  color: var(--white);
+}
+
 /* ── Nav color themes ── */
 .themeDark {
   background: #1a1a1a;
@@ -97,6 +129,10 @@
 
 .themeDark .link {
   color: #ccc;
+}
+
+.themeDark .localeSwitch {
+  color: var(--white);
 }
 
 .themeDark .link:hover {
@@ -120,6 +156,10 @@
 
 .themePurple .link {
   color: rgba(255, 255, 255, 0.85);
+}
+
+.themePurple .localeSwitch {
+  color: var(--white);
 }
 
 .themePurple .link:hover {
@@ -226,6 +266,16 @@
   color: var(--white);
 }
 
+.mobileLocaleSwitch {
+  justify-content: stretch;
+  color: var(--black);
+}
+
+.mobileLocaleSwitch button {
+  flex: 1;
+  padding: 0.625rem;
+}
+
 @media (max-width: 53.75rem) {
   .nav {
     top: 0.5rem;
@@ -236,6 +286,10 @@
   }
 
   .links {
+    display: none;
+  }
+
+  .localeSwitch {
     display: none;
   }
 

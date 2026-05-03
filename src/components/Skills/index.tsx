@@ -1,53 +1,32 @@
-import { extraTechItems } from '@/lib/data';
+'use client';
+
+import { useI18n } from '@/lib/i18n-context';
 import styles from './Skills.module.css';
 
-const skillGroups = [
-  {
-    label: 'Backend',
-    command: 'build api',
-    items: ['NestJS', 'Node.js', 'TypeScript', 'GraphQL', 'RabbitMQ', 'Redis', 'Go'],
-  },
-  {
-    label: 'Frontend',
-    command: 'ship ui',
-    items: ['React', 'Next.js', 'Tailwind', 'Styled Components', 'React Query'],
-  },
-  {
-    label: 'Cloud',
-    command: 'deploy',
-    items: ['AWS', 'Docker', 'CI/CD', 'EC2', 'S3', 'Lambda', 'SQS'],
-  },
-  {
-    label: 'Data',
-    command: 'query',
-    items: ['Postgres', 'Prisma', 'MongoDB', 'MySQL', 'Sequelize'],
-  },
-];
-
-const signalItems = ['Microservices', 'Clean Arch.', 'gRPC', 'Jest'];
-const doubled = [...extraTechItems, ...extraTechItems];
-
 export default function Skills() {
+  const { t } = useI18n();
+  const doubled = [...t.skills.extraTechItems, ...t.skills.extraTechItems];
+
   return (
     <section id="skills" className={styles.skills}>
       <div className={`${styles.shell} reveal`}>
-        <div className={`tag ${styles.skillsTag}`}>⚙ Tecnologias</div>
+        <div className={`tag ${styles.skillsTag}`}>{t.skills.tag}</div>
 
         <div className={styles.console}>
           <div className={styles.consoleTop}>
             <span />
             <span />
             <span />
-            <strong>~/luiz/skills</strong>
+            <strong>{t.skills.terminalPath}</strong>
           </div>
 
           <div className={styles.commandLine}>
             <span>luiz@portfolio</span>
-            <strong>run stack --production</strong>
+            <strong>{t.skills.command}</strong>
           </div>
 
           <div className={styles.board}>
-            {skillGroups.map((group, index) => (
+            {t.skills.groups.map((group, index) => (
               <article key={group.label} className={styles.group}>
                 <div className={styles.groupHead}>
                   <span>0{index + 1}</span>
@@ -66,11 +45,11 @@ export default function Skills() {
 
           <div className={styles.signal}>
             <div>
-              <span className={styles.signalLabel}>Modo de trabalho</span>
-              <strong>Arquitetura limpa, entregas pragmáticas.</strong>
+              <span className={styles.signalLabel}>{t.skills.workMode}</span>
+              <strong>{t.skills.workModeText}</strong>
             </div>
             <div className={styles.signalTags}>
-              {signalItems.map((item) => (
+              {t.skills.signalItems.map((item) => (
                 <span key={item}>{item}</span>
               ))}
             </div>

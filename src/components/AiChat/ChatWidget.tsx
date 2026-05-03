@@ -1,36 +1,13 @@
 'use client';
 
 import { useState, useRef, useEffect, type ReactNode } from 'react';
+import { useI18n } from '@/lib/i18n-context';
 import styles from './AiChat.module.css';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
 }
-
-const SUGGESTIONS = [
-  'Qual é sua stack principal?',
-  'Tem experiência com AWS?',
-  'Quais projetos já fez?',
-  'Está disponível para trabalho?',
-];
-
-const PRESET_RESPONSES: Record<string, string> = {
-  'Qual é sua stack principal?':
-    'Minha stack principal é **TypeScript** no full-stack: **React/Next.js** no frontend e **Node.js/NestJS** no backend. Também trabalho bem com **PostgreSQL**, **Redis**, **Docker**, **AWS** e arquiteturas com microserviços.',
-  'Tem experiência com AWS?':
-    'Sim. Tenho experiência usando **AWS** em aplicações web e plataformas escaláveis, incluindo deploy, infraestrutura, pipelines e serviços de apoio para aplicações Node.js/Next.js.',
-  'Quais projetos já fez?':
-    'Alguns projetos de destaque:\n\n- **Microservices Streaming Platform**: plataforma de vídeo com transcoding, RabbitMQ, Docker, FFmpeg e Redis.\n- **Sphera Academy**: plataforma de e-learning com cursos, aulas, progresso, pagamentos e dashboard admin.\n- **WhatsApp Campaigns**: sistema de campanhas em massa com listas, templates, agendamento e analytics.\n- **VSCode Portfolio**: portfólio interativo inspirado no VS Code.',
-  'Está disponível para trabalho?':
-    'Sim, estou aberto a oportunidades como **Full-Stack Developer**, especialmente com **React**, **Next.js**, **Node.js**, **NestJS**, cloud e sistemas escaláveis. Você pode chamar pelo e-mail **lfernando.r991@gmail.com** ou pelo LinkedIn.',
-};
-
-const INITIAL: Message = {
-  role: 'assistant',
-  content:
-    'Olá! Sou o assistente do Luiz. Pergunte sobre experiência, stack, projetos ou qualquer coisa profissional sobre ele! 👋',
-};
 
 function renderInlineMarkdown(text: string): ReactNode[] {
   const nodes: ReactNode[] = [];
@@ -128,10 +105,18 @@ function MarkdownContent({ content }: { content: string }) {
 }
 
 export default function ChatWidget() {
-  const [messages, setMessages] = useState<Message[]>([INITIAL]);
+  const { locale, t } = useI18n();
+  const initialMessage: Message = { role: 'assistant', content: t.aiChat.initial };
+  const [messages, setMessages] = useState<Message[]>([initialMessage]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setMessages([{ role: 'assistant', content: t.aiChat.initial }]);
+    setInput('');
+    setLoading(false);
+  }, [locale, t.aiChat.initial]);
 
   useEffect(() => {
     if (!messagesRef.current) return;
@@ -147,7 +132,7 @@ export default function ChatWidget() {
     setMessages(next);
     setInput('');
 
-    const presetResponse = PRESET_RESPONSES[trimmed];
+    const presetResponse = t.aiChat.presetResponses[trimmed as keyof typeof t.aiChat.presetResponses];
     if (presetResponse) {
       setLoading(true);
       window.setTimeout(() => {
@@ -173,7 +158,7 @@ export default function ChatWidget() {
         ...next,
         {
           role: 'assistant',
-          content: 'Ops, a IA saiu para tomar um café e já volta. Tenta de novo daqui a pouquinho!',
+          content: t.aiChat.error,
         },
       ]);
     } finally {
@@ -190,11 +175,11 @@ export default function ChatWidget() {
           <div>
             <div className={styles.name}>Luiz AI</div>
             <div className={styles.status}>
-              <span className={styles.dot} /> Pronto para responder
+              <span className={styles.dot} /> {t.aiChat.status}
             </div>
           </div>
         </div>
-        <div className={styles.badge}>✦ Free AI</div>
+        <div className={styles.badge}>{t.aiChat.badge}</div>
       </div>
 
       {/* Messages */}
@@ -218,7 +203,7 @@ export default function ChatWidget() {
                 <span />
                 <span />
               </div>{' '}
-              Analisando...
+              {t.aiChat.thinking}
             </div>
           </div>
         )}
@@ -226,9 +211,9 @@ export default function ChatWidget() {
 
       {/* Suggestions */}
       <div className={styles.suggestions}>
-        <div className={styles.suggestionsLabel}>Tente perguntar:</div>
+        <div className={styles.suggestionsLabel}>{t.aiChat.suggestionsLabel}</div>
         <div className={styles.suggestionsList}>
-          {SUGGESTIONS.map((s) => (
+          {t.aiChat.suggestions.map((s) => (
             <button
               key={s}
               className={styles.suggestion}
@@ -246,7 +231,7 @@ export default function ChatWidget() {
         <input
           className={styles.input}
           type="text"
-          placeholder="Faça uma pergunta sobre o Luiz..."
+          placeholder={t.aiChat.placeholder}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
@@ -258,7 +243,7 @@ export default function ChatWidget() {
           className={styles.send}
           onClick={() => send(input)}
           disabled={loading || !input.trim()}
-          aria-label="Enviar"
+          aria-label={t.aiChat.sendLabel}
         >
           <svg
             width="16"

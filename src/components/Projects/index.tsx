@@ -1,22 +1,26 @@
-import { projects } from '@/lib/data';
+'use client';
+
+import { useI18n } from '@/lib/i18n-context';
 import ProjectCard from './ProjectCard';
 import styles from './Projects.module.css';
 
 export default function Projects() {
+  const { t } = useI18n();
+
   return (
     <section id="projects" className={styles.projects}>
       <div className="container">
         <div className="reveal">
-          <div className={`tag ${styles.projectsTag}`}>✦ Projetos</div>
+          <div className={`tag ${styles.projectsTag}`}>{t.projects.tag}</div>
           <h2 className={styles.title}>
-            Coisas que
+            {t.projects.titleTop}
             <br />
-            eu construí.
+            {t.projects.titleBottom}
           </h2>
         </div>
 
         <div className={`${styles.grid} reveal`}>
-          {projects.map((project) => (
+          {t.projects.items.map((project) => (
             <ProjectCard key={project.title} project={project} />
           ))}
         </div>
@@ -28,7 +32,7 @@ export default function Projects() {
             rel="noopener noreferrer"
             className={`btn ${styles.githubButton}`}
           >
-            Ver mais no GitHub →
+            {t.projects.more}
           </a>
         </div>
       </div>
