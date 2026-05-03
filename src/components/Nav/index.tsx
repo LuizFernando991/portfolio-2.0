@@ -73,7 +73,7 @@ export default function Nav() {
         </button>
       </nav>
 
-      <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}>
+      <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''} ${themeClass[theme] ?? ''}`}>
         {navLinks.map((link) => (
           <a key={link.label} href={link.href} className={styles.mobileLink} onClick={closeMenu}>
             {link.label}

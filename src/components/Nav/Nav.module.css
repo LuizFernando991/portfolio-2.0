@@ -25,7 +25,6 @@
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 0.9375rem;
-  letter-spacing: 0;
   transition: color 0.3s;
   color: var(--black);
 }
@@ -60,8 +59,8 @@
 }
 
 .cta {
-  background: var(--peach);
-  color: var(--black);
+  background: var(--purple);
+  color: var(--white);
   border: var(--border);
   box-shadow: 0.1875rem 0.1875rem 0 var(--black);
   padding: 0.4375rem 1rem;
@@ -71,7 +70,8 @@
   transition:
     transform 0.12s,
     box-shadow 0.12s,
-    background 0.3s;
+    background 0.3s,
+    color 0.3s;
   text-decoration: none;
 }
 
@@ -89,6 +89,7 @@
   border-radius: 6.25rem;
   padding: 0.1875rem;
   color: var(--black);
+  transition: color 0.3s;
 }
 
 .localeSwitch button,
@@ -113,82 +114,49 @@
 
 /* ── Nav color themes ── */
 .themeDark {
-  background: #1a1a1a;
-  border-color: #333;
+  background: #181818;
+  border-color: #2e2e2e;
   box-shadow: 0.25rem 0.25rem 0 #000;
 }
 
-.themeDark .logo {
-  color: var(--white);
-}
-
-.themeDark .logo span {
-  color: var(--purple-light);
-}
-
-.themeDark .link {
-  color: #ccc;
-}
-
-.themeDark .localeSwitch {
-  color: var(--white);
-}
-
-.themeDark .link:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-}
+.themeDark .logo { color: var(--white); }
+.themeDark .logo span { color: var(--purple-light); }
+.themeDark .link { color: rgba(255, 255, 255, 0.65); }
+.themeDark .link:hover { background: rgba(255, 255, 255, 0.08); color: var(--white); }
+.themeDark .localeSwitch { color: rgba(255, 255, 255, 0.65); }
+.themeDark .hamburger { border-color: #2e2e2e; }
+.themeDark .hamburger span { background: var(--white); }
+.themeDark .cta { background: var(--purple-light); color: var(--black); border-color: transparent; box-shadow: 0.1875rem 0.1875rem 0 #000; }
 
 .themePurple {
-  background: #5a3fa0;
-  border-color: rgba(255, 255, 255, 0.25);
-  box-shadow: 0.25rem 0.25rem 0 #492c85;
+  background: var(--purple);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0.25rem 0.25rem 0 #3d2a7a;
 }
 
-.themePurple .logo {
-  color: var(--white);
-}
-
-.themePurple .logo span {
-  color: var(--peach);
-}
-
-.themePurple .link {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.themePurple .localeSwitch {
-  color: var(--white);
-}
-
-.themePurple .link:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
+.themePurple .logo { color: var(--white); }
+.themePurple .logo span { color: var(--peach); }
+.themePurple .link { color: rgba(255, 255, 255, 0.8); }
+.themePurple .link:hover { background: rgba(255, 255, 255, 0.12); color: var(--white); }
+.themePurple .localeSwitch { color: rgba(255, 255, 255, 0.8); }
+.themePurple .hamburger { border-color: rgba(255, 255, 255, 0.25); }
+.themePurple .hamburger span { background: var(--white); }
+.themePurple .cta { background: var(--peach); color: var(--black); border-color: var(--black); box-shadow: 0.1875rem 0.1875rem 0 #3d2a7a; }
 
 .themePeach {
-  background: #f4a261;
+  background: var(--peach-light);
   border-color: var(--black);
   box-shadow: 0.25rem 0.25rem 0 var(--black);
 }
 
-.themePeach .logo {
-  color: var(--black);
-}
+.themePeach .logo { color: var(--black); }
+.themePeach .logo span { color: var(--purple); }
+.themePeach .link { color: var(--black); }
+.themePeach .link:hover { background: rgba(0, 0, 0, 0.07); }
+.themePeach .localeSwitch { color: var(--black); }
+.themePeach .cta { background: var(--black); color: var(--white); box-shadow: 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.3); }
 
-.themePeach .logo span {
-  color: var(--black);
-}
-
-.themePeach .link {
-  color: var(--black);
-}
-
-.themePeach .link:hover {
-  background: rgba(0, 0, 0, 0.08);
-}
-
-/* Hamburger */
+/* ── Hamburger ── */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -198,6 +166,7 @@
   background: none;
   border: var(--border);
   border-radius: 0.5rem;
+  transition: border-color 0.3s;
 }
 
 .hamburger span {
@@ -207,8 +176,9 @@
   background: var(--black);
   border-radius: 0.125rem;
   transition:
-    transform 0.2s,
-    opacity 0.2s;
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    background 0.3s;
 }
 
 .hamburgerOpen span:nth-child(1) {
@@ -217,15 +187,16 @@
 
 .hamburgerOpen span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 
 .hamburgerOpen span:nth-child(3) {
   transform: translateY(-0.4375rem) rotate(-45deg);
 }
 
-/* Mobile menu */
+/* ── Mobile menu ── */
 .mobileMenu {
-  display: none;
+  display: flex;
   position: fixed;
   top: 4.625rem;
   left: 0.75rem;
@@ -238,11 +209,46 @@
   gap: 0.5rem;
   z-index: 99;
   box-shadow: var(--shadow-lg);
+  /* animation */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-0.5rem) scale(0.98);
+  transform-origin: top center;
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    visibility 0.22s,
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .mobileMenuOpen {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
+
+/* stagger items on open */
+.mobileMenu > * {
+  opacity: 0;
+  transform: translateY(-0.25rem);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.mobileMenuOpen > *:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.05s; }
+.mobileMenuOpen > *:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.09s; }
+.mobileMenuOpen > *:nth-child(3) { opacity: 1; transform: none; transition-delay: 0.13s; }
+.mobileMenuOpen > *:nth-child(4) { opacity: 1; transform: none; transition-delay: 0.17s; }
+.mobileMenuOpen > *:nth-child(5) { opacity: 1; transform: none; transition-delay: 0.21s; }
+.mobileMenuOpen > *:nth-child(6) { opacity: 1; transform: none; transition-delay: 0.25s; }
 
 .mobileLink {
   display: block;
@@ -253,7 +259,7 @@
   padding: 0.75rem 1rem;
   border: var(--border);
   border-radius: var(--radius);
-  transition: background 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .mobileLink:hover {
@@ -263,6 +269,11 @@
 .mobileCta {
   background: var(--black);
   color: var(--white);
+  border-color: var(--black);
+}
+
+.mobileCta:hover {
+  background: #2a2a2a;
 }
 
 .mobileLocaleSwitch {
@@ -275,6 +286,39 @@
   padding: 0.625rem;
 }
 
+/* ── Mobile menu themes ── */
+.mobileMenu.themeDark {
+  background: #181818;
+  border-color: #2e2e2e;
+  box-shadow: 0.375rem 0.375rem 0 #000;
+}
+
+.mobileMenu.themeDark .mobileLink { color: rgba(255, 255, 255, 0.75); border-color: #2e2e2e; }
+.mobileMenu.themeDark .mobileLink:hover { background: rgba(255, 255, 255, 0.06); }
+.mobileMenu.themeDark .mobileCta { background: var(--purple-light); color: var(--black); border-color: transparent; }
+.mobileMenu.themeDark .mobileLocaleSwitch { color: rgba(255, 255, 255, 0.65); }
+
+.mobileMenu.themePurple {
+  background: var(--purple);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0.375rem 0.375rem 0 #3d2a7a;
+}
+
+.mobileMenu.themePurple .mobileLink { color: rgba(255, 255, 255, 0.85); border-color: rgba(255, 255, 255, 0.18); }
+.mobileMenu.themePurple .mobileLink:hover { background: rgba(255, 255, 255, 0.1); }
+.mobileMenu.themePurple .mobileCta { background: var(--peach); color: var(--black); border-color: var(--black); }
+.mobileMenu.themePurple .mobileLocaleSwitch { color: rgba(255, 255, 255, 0.8); }
+
+.mobileMenu.themePeach {
+  background: var(--peach-light);
+  border-color: var(--black);
+}
+
+.mobileMenu.themePeach .mobileLink { color: var(--black); border-color: rgba(14, 14, 14, 0.2); }
+.mobileMenu.themePeach .mobileLink:hover { background: rgba(0, 0, 0, 0.05); }
+.mobileMenu.themePeach .mobileCta { background: var(--black); color: var(--white); border-color: var(--black); }
+.mobileMenu.themePeach .mobileLocaleSwitch { color: var(--black); }
+
 @media (max-width: 53.75rem) {
   .nav {
     top: 0.5rem;
@@ -284,10 +328,7 @@
     border-radius: 0.875rem;
   }
 
-  .links {
-    display: none;
-  }
-
+  .links,
   .localeSwitch {
     display: none;
   }
@@ -302,10 +343,6 @@
 }
 
 @media (max-width: 30rem) {
-  .nav {
-    height: 3.125rem;
-  }
-
   .mobileMenu {
     top: 4rem;
   }
