@@ -39,7 +39,7 @@ export default function HeroCard() {
   const { t } = useI18n();
   const stats = [
     { value: '3+', label: t.hero.years },
-    { value: 'NaN', label: t.hero.codeHours },
+    { value: '∞', label: t.hero.codeHours },
     { value: '∞', label: t.hero.caffeine },
   ];
 
