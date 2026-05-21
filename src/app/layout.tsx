@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { I18nProvider } from '@/lib/i18n-context';
 import { defaultSeoDescription, pathToLocale, siteName, siteUrl } from '@/lib/seo';
 import './globals.css';
@@ -67,6 +68,7 @@ export default function RootLayout({
       <body>
         <I18nProvider initialLocale={lang}>{children}</I18nProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
