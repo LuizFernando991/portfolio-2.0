@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/next';
 import { I18nProvider } from '@/lib/i18n-context';
 import { defaultSeoDescription, pathToLocale, siteName, siteUrl } from '@/lib/seo';
 import './globals.css';
@@ -65,6 +66,7 @@ export default function RootLayout({
     <html lang={lang}>
       <body>
         <I18nProvider initialLocale={lang}>{children}</I18nProvider>
+        <Analytics />
       </body>
     </html>
   );
