@@ -66,6 +66,9 @@
 .thumbGreen {
   background: var(--green-light);
 }
+.thumbGreenTerminal {
+  background: #0d1f12;
+}
 
 /* Terminal thumb */
 .terminal {

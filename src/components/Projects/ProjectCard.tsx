@@ -106,11 +106,30 @@ function ThumbGreen() {
   );
 }
 
+function ThumbGreenTerminal() {
+  return (
+    <div className={`${styles.thumb} ${styles.thumbGreenTerminal}`}>
+      <div className={styles.terminal}>
+        <span className={styles.termCommand}>$ syncdrive-daemon start</span>
+        <br />
+        <span className={styles.termOk}>✓ watching ~/Documents</span>
+        <br />
+        <span className={styles.termOk}>✓ watching ~/Projects</span>
+        <br />
+        <span className={styles.termOk}>↑ synced 3 files</span>
+        <br />
+        <span className={styles.termReady}>▶ daemon running</span>
+      </div>
+    </div>
+  );
+}
+
 const thumbMap = {
   dark: <ThumbDark />,
   purple: <ThumbPurple />,
   peach: <ThumbPeach />,
   green: <ThumbGreen />,
+  greenTerminal: <ThumbGreenTerminal />,
 };
 
 export default function ProjectCard({ project }: Props) {

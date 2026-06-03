@@ -12,7 +12,7 @@ export interface Project {
   description: string;
   tags: readonly string[];
   link: string;
-  thumb: 'dark' | 'purple' | 'peach' | 'green';
+  thumb: 'dark' | 'purple' | 'peach' | 'green' | 'greenTerminal';
 }
 
 export const locales: Locale[] = ['pt-BR', 'en-US'];
@@ -148,6 +148,15 @@ export const translations = {
           thumb: 'dark',
         },
         {
+          title: 'Go Sync Folder',
+          type: 'Open Source · Backend',
+          description:
+            'Sincronização bidirecional de pastas entre máquinas via servidor HTTP central em Go. Daemon com watcher de filesystem, transferências em streaming, merge de três vias e verificação de integridade por hash.',
+          tags: ['Golang', 'HTTP', 'File Sync'],
+          link: 'https://github.com/LuizFernando991/go-sync-folder',
+          thumb: 'greenTerminal',
+        },
+        {
           title: 'VSCode Portfolio',
           type: 'Portfólio · Visual',
           description:
@@ -164,15 +173,6 @@ export const translations = {
           tags: ['Next.js', 'AWS', 'Cloudinary'],
           link: 'https://www.spheraacademy.com/',
           thumb: 'peach',
-        },
-        {
-          title: 'Golang Raw Router',
-          type: 'Open Source · Backend',
-          description:
-            'API em Go sem frameworks HTTP. Roteamento manual implementado com net/http e expressões regulares para mapeamento de rotas.',
-          tags: ['Go', 'net/http', 'REST'],
-          link: 'https://github.com/LuizFernando991/golang-raw-router',
-          thumb: 'green',
         },
       ],
     },
@@ -412,6 +412,15 @@ export const translations = {
           thumb: 'dark',
         },
         {
+          title: 'Go Sync Folder',
+          type: 'Open Source · Backend',
+          description:
+            'Bidirectional folder sync between machines via a central HTTP server in Go. Filesystem watcher daemon, streaming transfers, three-way merge, and hash-based integrity verification.',
+          tags: ['Go', 'HTTP', 'File Sync'],
+          link: 'https://github.com/LuizFernando991/go-sync-folder',
+          thumb: 'green',
+        },
+        {
           title: 'VSCode Portfolio',
           type: 'Portfolio · Visual',
           description:
@@ -428,15 +437,6 @@ export const translations = {
           tags: ['Next.js', 'AWS', 'Cloudinary'],
           link: 'https://www.spheraacademy.com/',
           thumb: 'peach',
-        },
-        {
-          title: 'Golang Raw Router',
-          type: 'Open Source · Backend',
-          description:
-            'API in Go with no HTTP frameworks. Routing manually implemented using only net/http and regular expressions to map routes.',
-          tags: ['Go', 'net/http', 'REST'],
-          link: 'https://github.com/LuizFernando991/golang-raw-router',
-          thumb: 'green',
         },
       ],
     },
