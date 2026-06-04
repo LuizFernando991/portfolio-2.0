@@ -416,7 +416,7 @@ export const translations = {
           type: 'Open Source · Backend',
           description:
             'Bidirectional folder sync between machines via a central HTTP server in Go. Filesystem watcher daemon, streaming transfers, three-way merge, and hash-based integrity verification.',
-          tags: ['Go', 'HTTP', 'File Sync'],
+          tags: ['Golang', 'HTTP', 'File Sync'],
           link: 'https://github.com/LuizFernando991/go-sync-folder',
           thumb: 'greenTerminal',
         },
