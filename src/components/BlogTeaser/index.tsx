@@ -1,6 +1,6 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import SectionHeader from '@/components/ui/SectionHeader';
@@ -66,7 +66,7 @@ function BlogCard({ post, locale, minuteLabel, readPostLabel, blogBasePath }: Bl
     <Link href={`${blogBasePath}/${localized.slug}`} className={styles.card}>
       <div className={styles.cover}>
         {post.coverImage ? (
-          <img src={post.coverImage} alt="" />
+          <Image src={post.coverImage} alt="" fill sizes="(max-width: 860px) 100vw, 360px" />
         ) : (
           <div className={styles.codeThumb} aria-hidden="true">
             <span className={styles.codeMuted}>$</span> blog.read
@@ -84,7 +84,11 @@ function BlogCard({ post, locale, minuteLabel, readPostLabel, blogBasePath }: Bl
           </span>
         </div>
         <h3 className={styles.cardTitle}>{localized.title}</h3>
-        {localized.excerpt && <p className={styles.excerpt} title={localized.excerpt}>{localized.excerpt}</p>}
+        {localized.excerpt && (
+          <p className={styles.excerpt} title={localized.excerpt}>
+            {localized.excerpt}
+          </p>
+        )}
         <span className={styles.readMore}>{readPostLabel}</span>
       </article>
     </Link>

@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
 import Link from 'next/link';
 import type { BlogPost, Taxonomy } from '../blog-utils';
 import { formatBlogDate, localizedPost, readingTime } from '../blog-utils';
@@ -80,7 +80,16 @@ export default function BlogPostCard({
     >
       <div className={coverClassName}>
         {post.coverImage ? (
-          <img src={post.coverImage} alt="" />
+          <Image
+            src={post.coverImage}
+            alt=""
+            fill
+            sizes={
+              variant === 'featured'
+                ? '(max-width: 860px) 100vw, 420px'
+                : '(max-width: 860px) 100vw, 256px'
+            }
+          />
         ) : (
           <CodeThumb title={localized.title} variant={variant} />
         )}

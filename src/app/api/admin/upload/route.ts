@@ -16,7 +16,12 @@ export async function POST(req: NextRequest) {
 
   const { error } = await supabaseAdmin.storage
     .from(MEDIA_BUCKET)
-    .upload(filename, bytes, { contentType: file.type, upsert: false });
+    .upload(filename, bytes, {
+      contentType: file.type,
+      upsert: false,
+      // filename is unique per upload, so the object is immutable: cache it for a year
+      cacheControl: "31536000",
+    });
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 

@@ -1,7 +1,7 @@
 'use client';
 
-/* eslint-disable @next/next/no-img-element */
 import { useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import rehypeHighlight from 'rehype-highlight';
@@ -112,7 +112,13 @@ export default function PostPageContent({ post }: Props) {
         {post.coverImage && (
           <div className={styles.coverWrap}>
             <div className={styles.cover}>
-              <img src={post.coverImage} alt="" />
+              <Image
+                src={post.coverImage}
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 1100px) 100vw, 1100px"
+              />
             </div>
           </div>
         )}
